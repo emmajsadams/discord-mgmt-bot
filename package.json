@@ -11,6 +11,8 @@
     "run": "node index.js"
   },
   "dependencies": {
-    "discord.js": "^12.3.1"
+    "discord-backup": "^2.2.5",
+    "discord.js": "^12.3.1",
+    "express": "^4.17.1"
   }
 }
