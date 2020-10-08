@@ -1,0 +1,16 @@
+{
+  "name": "emmabot",
+  "version": "1.0.0",
+  "description": "discord backup bot",
+  "main": "index.js",
+  "repository": "https://github.com/EmmaJStebbins/emmabot.git",
+  "author": "emma <emma@stebbins.dev>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "run": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^12.3.1"
+  }
+}
