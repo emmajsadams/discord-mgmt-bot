@@ -28,6 +28,8 @@ client.on('ready', () => {
 
 // TODO: figure out why message content is inconsisetnt between desktop and mobile
 // content: '<@!763599207294173234> tell me something random',
+//
+// TODO: Consolidate the end of text truncation logic
 client.on('message', async message => {
   // const emmaMentionedUser = message.mentions.users.get(EMMA_BOT_ID);
   // const atEmmaBotTextInText = message.content.startsWith('@EmmaBot');
@@ -49,7 +51,7 @@ client.on('message', async message => {
       message.reply('Sorry please try again')
       return
     }
-    message.reply(response.data.text);
+    message.reply(response.data.text.split('<|endoftext|>')[0]);
 
     return;
   }
@@ -72,7 +74,7 @@ client.on('message', async message => {
     message.reply('Sorry please try again')
     return;
   }
-  message.reply(response.data.text);
+  message.reply(response.data.text.split('<|endoftext|>')[0]);
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);
