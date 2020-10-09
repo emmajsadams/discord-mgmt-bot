@@ -3,7 +3,7 @@ const backup = require("discord-backup");
 const axios = require('axios');
 
 // TODO: add basic authentication to my gpt2 api
-const GPT2_API_URL = 'http://34.105.75.35'
+const GPT2_API_URL = 'http://34.105.75.35/generate'
 const EMMA_USER_ID = '325088597286060044'
 const EMMA_BOT_ID = '763599207294173234'
 
@@ -28,18 +28,22 @@ client.on('ready', () => {
 // TODO: figure out why message content is inconsisetnt between desktop and mobile
 // content: '<@!763599207294173234> tell me something random',
 client.on('message', async message => {
-  const emmaMentionedUser = message.mentions.users.get(EMMA_BOT_ID);
-  const atEmmaBotTextInText = message.content.startsWith('@EmmaBot');
+  // const emmaMentionedUser = message.mentions.users.get(EMMA_BOT_ID);
+  // const atEmmaBotTextInText = message.content.startsWith('@EmmaBot');
+  // TODO: figure out how the at mention is represented consistently across mobile, and why exclamation points dont work
   const emmaBotTextInText = message.content.startsWith('EmmaBot');
-  if (!emmaMentionedUser && !atEmmaBotTextInText && !emmaBotTextInText) {
+  if (!emmaBotTextInText) {
     return;
   }
+  const messageContent = message.content.substring('EmmaBot '.length).trim()
 
   const emmaUserAuthor = message.author.id === EMMA_USER_ID;
   message.react(':emmapray:761721006704164874');
 
-  if (message.content.includes('tell me something random')) {
-    const response = await axios.get(GPT2_API_URL, { params: { length: 100 }});
+  if (messageContent === 'tell me something random') {
+    const response = await axios.get(GPT2_API_URL, { params: {
+      length: 200,
+    }});
     if (response.status !== 200) {
       message.reply('Sorry please try again')
       return
@@ -49,8 +53,7 @@ client.on('message', async message => {
     return;
   }
 
-
-  if (message.content.includes('hello')) {
+  if (messageContent === 'hello') {
     if (emmaUserAuthor) {
       message.reply('Hello my beautiful queen!');
     } else {
@@ -60,17 +63,15 @@ client.on('message', async message => {
     return;
   }
 
-  // figure out embed
-  // {
-  //   embed: {
-  //     url: 'https://youtu.be/ARJ8cAGm6JE?t=59'
-  //   }
-  // }
-  if (emmaUserAuthor) {
-    message.reply('My beautiful queen I do not understand!');
-  } else {
-    message.reply("I'm sorry human filth, I'm afraid I can't do that.")
+  const response = await axios.get(GPT2_API_URL, { params: {
+    length: 200,
+    prefix: messageContent
+  }});
+  if (response.status !== 200) {
+    message.reply('Sorry please try again')
+    return;
   }
+  message.reply(response.data.text);
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);
