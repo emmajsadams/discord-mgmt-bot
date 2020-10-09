@@ -14,6 +14,7 @@ const backupOptions = {
   saveImages: "base64" //"base64" TODO switch to base64
 }
 
+// TODO: Change status to be something clever about learning to become human
 const client = new Discord.Client({
   presence: {
     activity: { type: 'WATCHING', name: 'the matrix' },
