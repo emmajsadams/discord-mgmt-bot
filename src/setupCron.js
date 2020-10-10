@@ -4,7 +4,7 @@ const backup = require("./backup");
 
 const setupCron = () => {
   cron.schedule('0 0 * * *', async () => {
-    const backupData =  await backup();
+    await backup();
   });
 }
 
