@@ -1,7 +1,7 @@
 {
   "name": "emmabot",
   "version": "1.0.0",
-  "description": "discord backup bot",
+  "description": "general purpose bot",
   "main": "index.js",
   "repository": "https://github.com/EmmaJStebbins/emmabot.git",
   "author": "emma <emma@stebbins.dev>",
@@ -12,6 +12,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "aws-sdk": "2.771.0",
     "axios": "0.20.0",
     "bufferutil": "4.0.1",
     "discord-backup": "2.2.5",
