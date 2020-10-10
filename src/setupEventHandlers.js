@@ -1,21 +1,21 @@
-const DiscordClient = require('./discordClient')
-const autorole = require('./autorole')
-const { EMMA_PRAY_EMOJI } = require('./ids');
-const getSimpleCommandReply = require('./getSimpleCommandReply')
-const getBotCommand = require('./getBotCommand');
-const getGPTReply = require('./getGPTReply');
+const DiscordClient = require("./discordClient");
+const autorole = require("./autorole");
+const { EMMA_PRAY_EMOJI } = require("./ids");
+const getSimpleCommandReply = require("./getSimpleCommandReply");
+const getBotCommand = require("./getBotCommand");
+const getGPTReply = require("./getGPTReply");
 
 const setupEventHandlers = () => {
   // Only needed for debugging could remove
-  DiscordClient.on('ready', () => {
+  DiscordClient.on("ready", () => {
     console.log(`Logged in as ${DiscordClient.user.tag}!`);
   });
 
-  DiscordClient.on('guildMemberAdd', async member => {
-    await autorole(member)
-  })
+  DiscordClient.on("guildMemberAdd", async (member) => {
+    await autorole(member);
+  });
 
-  DiscordClient.on('message', async message => {
+  DiscordClient.on("message", async (message) => {
     const botCommand = getBotCommand(message.content);
     if (!botCommand) {
       return;
@@ -36,8 +36,10 @@ const setupEventHandlers = () => {
       return;
     }
 
-    message.reply("I'm afraid I can't do that https://www.youtube.com/watch?v=ARJ8cAGm6JE&t=59s")
+    message.reply(
+      "I'm afraid I can't do that https://www.youtube.com/watch?v=ARJ8cAGm6JE&t=59s"
+    );
   });
-}
+};
 
-module.exports = setupEventHandlers
+module.exports = setupEventHandlers;
