@@ -15,7 +15,7 @@ const setupServer = () => {
       message:
         "Backup started in background, check server ./backups for json file",
     });
-    backup();
+    await backup();
   });
 
   app.listen(8080, () => {});
