@@ -22,6 +22,10 @@ const simpleCommandResponseDict = {
     [EVERYONE]:
       "https://media.discordapp.net/attachments/763827152965337088/764377573366825000/unknown.png",
   },
+  "you're a big guy": {
+    [EVERYONE]:
+      "For you https://media.discordapp.net/attachments/761262512485171211/764380202222354432/latest.png",
+  },
 };
 
 
