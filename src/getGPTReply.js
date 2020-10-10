@@ -4,6 +4,7 @@ const axios = require("axios");
 const GPT2_API_URL = "http://34.105.75.35/generate";
 
 const getGPTReply = async (command) => {
+  // TODO: add a retry
   const response = await axios.get(GPT2_API_URL, {
     params: {
       length: 200,
