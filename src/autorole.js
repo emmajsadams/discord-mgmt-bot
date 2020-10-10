@@ -1,9 +1,7 @@
 const { ACQUAINTANCE_ROLE } = require('./ids')
 
 const autorole = async (member) => {
-  await member.edit({
-    roles: [ACQUAINTANCE_ROLE]
-  })
+  await member.roles.add(ACQUAINTANCE_ROLE, 'Auto role')
 }
 
 module.exports = autorole
