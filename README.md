@@ -13,7 +13,6 @@ TODO: Switch over to typescript and deno
 TODO: make simple commands case insensitive and correct spelling maybe? (its probably funnier to let gpt2 to respond)
 TODO: make separate command for different temperatures
 
-
 # Deployment
 
 Automatically deployed to DigitalOcean on commit to master.
