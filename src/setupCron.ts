@@ -1,8 +1,8 @@
-const cron = require('node-cron')
-const backup = require('./backup')
+import { schedule } from 'node-cron'
+import backup from './backup'
 
 export default function setupCron() {
-  cron.schedule('0 0 * * *', async () => {
+  schedule('0 0 * * *', async () => {
     await backup()
   })
 }

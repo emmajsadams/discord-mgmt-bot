@@ -49,12 +49,11 @@ const eventHandlerNames = [
   'webhookUpdate',
 ]
 
-const setupEventHandlersForLogging = () => {
+export default function setupEventHandlersForLogging() {
   for (const eventHandlerName in eventHandlerNames) {
-    DiscordClient.on(eventHandlerName, async (...arguments) => {
-      await updateReactionRole(messageReaction, user, true)
+    // @ts-expect-error ts-migrate(2304) FIXME: Cannot find name 'DiscordClient'.
+    DiscordClient.on(eventHandlerName, async (...args: any[]) => {
+      console.log('foo')
     })
   }
 }
-
-module.exports = setupEventHandlersForLogging

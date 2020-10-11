@@ -1,11 +1,22 @@
 export {} // TODO: figure out why this is necessary https://medium.com/@muravitskiy.mail/cannot-redeclare-block-scoped-variable-varname-how-to-fix-b1c3d9cc8206
 
-require('dotenv').config()
+// TODO: move to types folder https://stackoverflow.com/questions/42984889/global-types-in-typescript
+declare global {
+  /**
+   * Fix for axios while we wait for ^0.2.1 to be published
+   * merge: https://github.com/axios/axios/commit/b7e954eba3911874575ed241ec2ec38ff8af21bb
+   * issue: https://github.com/axios/axios/issues/3219
+   */
+  interface ProgressEvent {} // eslint-disable-line
+}
 
-const setupCron = require('./setupCron')
-const setupHttpRetry = require('./setupHttpRetry')
-const setupEventHandlers = require('./setupEventHandlers')
-const setupServer = require('./setupServer')
+import { config as dotenvConfig } from 'dotenv'
+dotenvConfig()
+
+import setupCron from './setupCron'
+import setupHttpRetry from './setupHttpRetry'
+import setupEventHandlers from './setupEventHandlers'
+import setupServer from './setupServer'
 
 setupHttpRetry()
 setupCron()

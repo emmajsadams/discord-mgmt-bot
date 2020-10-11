@@ -1,12 +1,12 @@
-const DiscordClient = require('./discordClient')
-const autorole = require('./autorole')
-const { EMMA_PRAY_EMOJI, FRIENDS_GUILD_ID } = require('./ids')
-const CACHED_MESSAGES = require('./cachedMessages')
-const getSimpleCommandReply = require('./getSimpleCommandReply')
-const getBotCommand = require('./getBotCommand')
-const getGPTReply = require('./getGPTReply')
-const filterMessage = require('./filterMessage')
-const updateReactionRole = require('./updateReactionRole')
+import DiscordClient from './discordClient'
+import autorole from './autorole'
+import { EMMA_PRAY_EMOJI, FRIENDS_GUILD_ID } from './ids'
+import CACHED_MESSAGES from './cachedMessages'
+import getSimpleCommandReply from './getSimpleCommandReply'
+import getBotCommand from './getBotCommand'
+import getGPTReply from './getGPTReply'
+import filterMessage from './filterMessage'
+import updateReactionRole from './updateReactionRole'
 
 export default function setupEventHandlers() {
   DiscordClient.on('ready', async () => {
@@ -16,6 +16,7 @@ export default function setupEventHandlers() {
     // Cache all messages
     for (const channelId in CACHED_MESSAGES) {
       const channel = await guild.channels.cache.get(channelId)
+      // @ts-expect-error ts-migrate(2339) FIXME: Property 'messages' does not exist on type 'GuildC... Remove this comment to see the full error message
       await channel.messages.fetch(CACHED_MESSAGES[channelId])
     }
 

@@ -1,4 +1,4 @@
-var escapeRegExp = require('lodash.escaperegexp')
+import { escapeRegExp } from 'lodash'
 
 function createRegex(string) {
   return new RegExp(escapeRegExp(string))
@@ -12,7 +12,7 @@ const messageFilterDict = {
   },
 }
 
-const filterMessage = (messageContent) => {
+export default function filterMessage(messageContent) {
   for (const filterName in messageFilterDict) {
     const filter = messageFilterDict[filterName]
     if (filter.regex.test(messageContent)) {
@@ -22,5 +22,3 @@ const filterMessage = (messageContent) => {
 
   return null
 }
-
-module.exports = filterMessage

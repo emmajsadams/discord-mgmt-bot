@@ -1,4 +1,5 @@
-const { EMMA_USER_ID, EVERYONE } = require('./ids')
+// @ts-expect-error ts-migrate(2305) FIXME: Module '"./ids"' has no exported member 'EVERYONE'... Remove this comment to see the full error message
+import { EMMA_USER_ID, EVERYONE } from './ids'
 
 // TODO: Upload images used in these commands somewhere else rather than referencing guild specific links
 const simpleCommandResponseDict = {

@@ -1,12 +1,12 @@
-const {
+import {
   PRONOUN_MESSAGE_ID,
   COOMER_MESSAGE_ID,
   TABLETOP_MESSAGE_ID,
   MINECRAFT_MESSAGE_ID,
   MENS_LIBERATION_MESSAGE_ID,
   FRIENDS_GUILD_ID,
-} = require('./ids')
-const DiscordClient = require('./discordClient')
+} from './ids'
+import DiscordClient from './discordClient'
 
 // TODO: create constants out of these question mark?
 // TODO: add support for guild specific emojis
@@ -35,7 +35,7 @@ const messageToRoleReactionDict = {
 
 // TODO: consider separate add and remove function
 // addRole: true add role, false remove role
-const updateReactionRole = async (messageReaction, user, addRole) => {
+export default async function updateReactionRole(messageReaction, user, addRole) {
   const guild = await DiscordClient.guilds.fetch(FRIENDS_GUILD_ID)
 
   const messageId = messageReaction.message.id
@@ -60,5 +60,3 @@ const updateReactionRole = async (messageReaction, user, addRole) => {
 
   return roleId
 }
-
-module.exports = updateReactionRole

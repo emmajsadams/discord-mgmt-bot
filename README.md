@@ -6,6 +6,7 @@ TODO: Switch over to typescript and tslint https://www.typescriptlang.org/docs/h
 
 ## Low priority stuff
 
+TODO: create logging channel keeping track of all emmabot actions.
 TODO: configure githooks to prevent errors before commit (vscode mostly does this ) https://www.robertcooper.me/using-eslint-and-prettier-in-a-typescript-project
 TODO: pull out all configuration into a separate folder to begin the process of making the bot generic
 TODO: add feature to create new vc and text chat when they become full
@@ -20,6 +21,8 @@ TODO: make separate command for different temperatures in gpt2
 TODO: Make this code guild agnostic
 TODO: add command to list out all commands
 TODO: Consider adding sticky roles?
+TODO: Consolidate ignore files somehow??
+TODO: add tests
 
 # Deployment
 
@@ -43,3 +46,7 @@ eslint is the preferred linter https://www.robertcooper.me/using-eslint-and-pret
 # node vesrsion target mapping
 
 https://github.com/microsoft/TypeScript/wiki/Node-Target-Mapping
+
+# Typescript
+
+Migration tool https://github.com/airbnb/ts-migrate/tree/master/packages/ts-migrate

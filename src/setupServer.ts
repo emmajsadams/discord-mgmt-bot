@@ -1,8 +1,7 @@
-const express = require('express')
+import * as express from 'express'
+import backup from './backup'
 
-const backup = require('./backup')
-
-const setupServer = () => {
+export default function setupServer() {
   const app = express()
 
   app.get('/', async (req, res) => {
@@ -18,9 +17,9 @@ const setupServer = () => {
     await backup()
   })
 
-  app.listen(8080, () => {})
+  app.listen(8080, () => {
+    console.log('express server started on port 8080')
+  })
 
   return app
 }
-
-module.exports = setupServer

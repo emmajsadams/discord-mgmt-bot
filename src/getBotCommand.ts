@@ -1,4 +1,4 @@
-const getBotCommand = (messageContent) => {
+export default function getBotCommand(messageContent) {
   // TODO: figure out why message content is inconsisetnt between desktop and mobile
   // content: '<@!763599207294173234> tell me something random',
   // const emmaMentionedUser = message.mentions.users.get(EMMA_BOT_ID);
@@ -12,5 +12,3 @@ const getBotCommand = (messageContent) => {
 
   return messageContent.substring('EmmaBot '.length).trim()
 }
-
-module.exports = getBotCommand
