@@ -9,6 +9,7 @@ const setupServer = () => {
     res.send({ success: true, message: "Bot healthy" });
   });
 
+  // TODO: add an api key authentication mechanism for triggering backups manually
   app.get("/backup", async (req, res) => {
     res.send({
       success: true,
