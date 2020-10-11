@@ -32,3 +32,7 @@ https://emmabot-2n2rx.ondigitalocean.app/backup
 # File storage
 
 https://s3.console.aws.amazon.com/s3/buckets/emmabot/?region=us-west-2&tab=overview
+
+# Directory structure
+
+https://gist.github.com/tracker1/59f2c13044315f88bee9
