@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require("fs");
 const DiscordBackup = require("discord-backup");
 
 const { FRIENDS_GUILD_ID } = require("./ids");
@@ -7,9 +7,9 @@ const uploadFileToS3 = require("./uploadFileToS3");
 
 // figure out how to handle movies
 const backup = async () => {
-  DiscordBackup.setStorageFolder(__dirname + "/../backups/");  // TODO: do I need dirname?
+  DiscordBackup.setStorageFolder(__dirname + "/../backups/"); // TODO: do I need dirname?
 
-  const guild = await DiscordClient.guilds.fetch(FRIENDS_GUILD_ID, true, true);  // TODO: do I need to skip cache or not?
+  const guild = await DiscordClient.guilds.fetch(FRIENDS_GUILD_ID, true, true); // TODO: do I need to skip cache or not?
   const backupId = Date.now().toString();
 
   await DiscordBackup.create(guild, {
@@ -19,8 +19,8 @@ const backup = async () => {
     saveImages: "base64",
   });
 
-  var fileStream = fs.createReadStream('./backups/' + backupId + '.json');
-  await uploadFileToS3(fileStream, backupId + '.json')
+  var fileStream = fs.createReadStream("./backups/" + backupId + ".json");
+  await uploadFileToS3(fileStream, backupId + ".json");
 
   return backupId;
 };

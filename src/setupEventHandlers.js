@@ -26,6 +26,9 @@ const setupEventHandlers = () => {
     const botCommand = getBotCommand(message.content);
     if (!botCommand) {
       return;
+
+
+
     }
 
     // React to signify the bot is processing a command
