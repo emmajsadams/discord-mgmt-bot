@@ -3,11 +3,13 @@ const DiscordBackup = require("discord-backup");
 
 const { FRIENDS_GUILD_ID } = require("./ids");
 const DiscordClient = require("./discordClient");
-const uploadFileToS3 = require("./uploadFileToS3");
+const getSignedS3Url = require("./getSignedS3Url");
+
+const BACKUPS_FOLDER = "/backups/";
 
 // figure out how to handle movies
 const backup = async () => {
-  DiscordBackup.setStorageFolder(__dirname + "/../backups/"); // TODO: do I need dirname?
+  DiscordBackup.setStorageFolder(__dirname + "/.." + BACKUPS_FOLDER); // TODO: do I need dirname?
 
   const guild = await DiscordClient.guilds.fetch(FRIENDS_GUILD_ID, true, true); // TODO: do I need to skip cache or not?
   const backupId = Date.now().toString();
@@ -19,8 +21,19 @@ const backup = async () => {
     saveImages: "base64",
   });
 
-  var fileStream = fs.createReadStream("./backups/" + backupId + ".json");
-  await uploadFileToS3(fileStream, backupId + ".json");
+  const fileName = backupId + ".json";
+  const fileStream = fs.createReadStream("." + BACKUPS_FOLDER + fileName);
+  await uploadFileToS3(fileStream, fileName);
+
+  const presignedUrl = await getSignedS3Url();
+
+  //TODO: make this guild specific
+  guild.channels.cache
+    .get("764415739423096832")
+    .send(
+      "Here is the latest full server backup for the Friends server. This backup should never be shared with anyone not on the council because it includes all channels. " +
+        presignedUrl
+    );
 
   return backupId;
 };
