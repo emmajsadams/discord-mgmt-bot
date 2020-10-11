@@ -4,13 +4,12 @@ TODO: create presigned urls for backups and post after each backup
 TODO: REaction roles menu
 TODO: Logging (with channel exclusions)
 TODO: add command to list out all commands
-TODO: Add prettier githook
 TODO: Consider adding sticky roles?
 TODO: Figure out how to handle logs (backup to gdrive???)
-TODO: Make this code guild agnostic
 TODO: Switch over to typescript and deno
 TODO: make simple commands case insensitive and correct spelling maybe? (its probably funnier to let gpt2 to respond)
 TODO: make separate command for different temperatures
+TODO: Make this code guild agnostic
 
 # Deployment
 
