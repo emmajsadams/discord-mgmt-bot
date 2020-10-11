@@ -1,7 +1,7 @@
 # emmabot
 
-TODO: REaction roles
-TODO: Bad word filter (for magnent links mainly)
+TODO: create presigned urls for backups and post after each backup
+TODO: REaction roles menu
 TODO: Logging (with channel exclusions)
 TODO: add command to list out all commands
 TODO: Add prettier githook
@@ -19,3 +19,6 @@ Automatically deployed to DigitalOcean on commit to master. https://cloud.digita
 https://emmabot-2n2rx.ondigitalocean.app/
 https://emmabot-2n2rx.ondigitalocean.app/backup
 
+# File storage
+
+https://s3.console.aws.amazon.com/s3/buckets/emmabot/?region=us-west-2&tab=overview
