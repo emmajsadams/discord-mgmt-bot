@@ -1,12 +1,9 @@
-const AWS = require("aws-sdk");
-const fs = require("fs");
-
-const s3 = new AWS.S3({ apiVersion: "2006-03-01", region: "us-west-2" });
+const { S3_BUCKET, S3_API } = require("./ids");
 
 const uploadFileToS3 = async (fileStream, key) => {
-  const uploadParams = { Bucket: "emmabot", Key: key, Body: fileStream };
+  const uploadParams = { Bucket: S3_BUCKET, Key: key, Body: fileStream };
 
-  await s3.upload(uploadParams).promise();
+  await S3_API.upload(uploadParams).promise();
 };
 
 module.exports = uploadFileToS3;
