@@ -2,10 +2,9 @@
 
 TODO: Logging (with channel exclusions)
 TODO: create a ban feature for users that are not part of the server (have json file for the bans because server maintainer can just update that and have bot react on guildMemberJoin)
-TODO: add retries for any network operation (confirm discord doesn't do this already, mainly for my own http calls) https://www.npmjs.com/package/axios-retry
+TODO: Switch over to typescript and tslint https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html https://github.com/TypeStrong/ts-node
 
 ## Low priority stuff
-
 
 TODO: pull out all configuration into a separate folder to begin the process of making the bot generic
 TODO: add feature to create new vc and text chat when they become full
@@ -13,7 +12,6 @@ TODO: create hydrabot alternative https://discord.js.org/#/docs/main/stable/topi
 TODO: create a dev/test mode that avoids making changes and just logs them instead
 TODO: store all questions of jadebot somewhere for training later
 TODO: add a yes no feature
-TODO: Switch over to typescript and tslint https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html
 TODO: document environment variables and set them up locally in my shell
 TODO: setup alerts on new reaction to enby post
 TODO: delete backups older than a week? or maybe month?

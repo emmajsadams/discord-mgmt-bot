@@ -4,7 +4,9 @@
     "allowJs": true,
     "target": "es5",
     "module": "commonjs",
-    "sourceMap": true
+    "sourceMap": true,
+    "watch": true
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "compileOnSave": true
 }
