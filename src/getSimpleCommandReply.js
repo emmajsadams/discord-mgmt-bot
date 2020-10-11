@@ -32,6 +32,7 @@ const simpleCommandResponseDict = {
 };
 
 const getSimpleCommandReply = (authorId, command) => {
+  command = command.toLowerCase();
   const authorReplyDict = simpleCommandResponseDict[command];
   if (!authorReplyDict) {
     return null;
