@@ -4,6 +4,7 @@ const { EMMA_PRAY_EMOJI } = require("./ids");
 const getSimpleCommandReply = require("./getSimpleCommandReply");
 const getBotCommand = require("./getBotCommand");
 const getGPTReply = require("./getGPTReply");
+const filterMessage = require("./filterMessage");
 
 const setupEventHandlers = () => {
   // Only needed for debugging could remove
@@ -16,6 +17,12 @@ const setupEventHandlers = () => {
   });
 
   DiscordClient.on("message", async (message) => {
+    const filterReason = filterMessage(message.content);
+    if (filterReason) {
+      message.delete({ reason: filterReason });
+      message.reply(filterReason);
+    }
+
     const botCommand = getBotCommand(message.content);
     if (!botCommand) {
       return;
