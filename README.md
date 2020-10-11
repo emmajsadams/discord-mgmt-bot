@@ -1,12 +1,12 @@
 # emmabot
 
-TODO: REaction roles menu
 TODO: Logging (with channel exclusions)
 TODO: Figure out how to handle logs (backup to gdrive???)
 TODO: Switch over to typescript and tslint https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html
 TODO: add retries for any network operation
+TODO: create a ban feature for users that are not part of the server (have json file for the bans because server maintainer can just update that and have bot react on guildMemberJoin)
 
-## Low prio stuff
+## Low priority stuff
 
 TODO: setup alerts on new reaction to enby post
 TODO: delete backups older than a week? or maybe month?
