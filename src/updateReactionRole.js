@@ -3,6 +3,7 @@ const {
   COOMER_MESSAGE_ID,
   TABLETOP_MESSAGE_ID,
   MINECRAFT_MESSAGE_ID,
+  MENS_LIBERATION_MESSAGE_ID,
   FRIENDS_GUILD_ID,
 } = require("./ids");
 const DiscordClient = require("./discordClient");
@@ -26,6 +27,9 @@ const messageToRoleReactionDict = {
   },
   [MINECRAFT_MESSAGE_ID]: {
     "⛏️": "762934755770630166",
+  },
+  [MENS_LIBERATION_MESSAGE_ID]: {
+    "🚹": "764740026591346688",
   },
 };
 
