@@ -1,15 +1,33 @@
 const DiscordClient = require("./discordClient");
 const autorole = require("./autorole");
-const { EMMA_PRAY_EMOJI } = require("./ids");
+const { EMMA_PRAY_EMOJI, FRIENDS_GUILD_ID } = require("./ids");
+const CACHED_MESSAGES = require("./cachedMessages");
 const getSimpleCommandReply = require("./getSimpleCommandReply");
 const getBotCommand = require("./getBotCommand");
 const getGPTReply = require("./getGPTReply");
 const filterMessage = require("./filterMessage");
+const updateReactionRole = require("./updateReactionRole");
 
 const setupEventHandlers = () => {
-  // Only needed for debugging could remove
-  DiscordClient.on("ready", () => {
+  DiscordClient.on("ready", async () => {
     console.log(`Logged in as ${DiscordClient.user.tag}!`);
+    const guild = await DiscordClient.guilds.fetch(FRIENDS_GUILD_ID);
+
+    // Cache all messages
+    for (const channelId in CACHED_MESSAGES) {
+      const channel = await guild.channels.cache.get(channelId);
+      await channel.messages.fetch(CACHED_MESSAGES[channelId]);
+    }
+
+    console.log("Messages cached");
+  });
+
+  DiscordClient.on("messageReactionAdd", async (messageReaction, user) => {
+    await updateReactionRole(messageReaction, user, true);
+  });
+
+  DiscordClient.on("messageReactionRemove", async (messageReaction, user) => {
+    await updateReactionRole(messageReaction, user, false);
   });
 
   DiscordClient.on("guildMemberAdd", async (member) => {
@@ -47,6 +65,8 @@ const setupEventHandlers = () => {
       "I'm afraid I can't do that https://www.youtube.com/watch?v=ARJ8cAGm6JE&t=59s"
     );
   });
+
+  DiscordClient.on("messageReactionAdd", async (message) => {});
 };
 
 module.exports = setupEventHandlers;
