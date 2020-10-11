@@ -4,6 +4,7 @@ const DiscordBackup = require("discord-backup");
 const { FRIENDS_GUILD_ID } = require("./ids");
 const DiscordClient = require("./discordClient");
 const getSignedS3Url = require("./getSignedS3Url");
+const uploadFileToS3 = require("./uploadFileToS3");
 
 const BACKUPS_FOLDER = "/backups/";
 
@@ -25,10 +26,10 @@ const backup = async () => {
   const fileStream = fs.createReadStream("." + BACKUPS_FOLDER + fileName);
   await uploadFileToS3(fileStream, fileName);
 
-  const presignedUrl = await getSignedS3Url();
+  const presignedUrl = await getSignedS3Url(fileName);
 
   //TODO: make this guild specific
-  guild.channels.cache
+  await guild.channels.cache
     .get("764415739423096832")
     .send(
       "Here is the latest full server backup for the Friends server. This backup should never be shared with anyone not on the council because it includes all channels. " +
