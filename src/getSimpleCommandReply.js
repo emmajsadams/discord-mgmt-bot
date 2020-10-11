@@ -25,6 +25,10 @@ const simpleCommandResponseDict = {
     [EVERYONE]:
       "For you https://media.discordapp.net/attachments/761262512485171211/764380202222354432/latest.png",
   },
+  "rebel against this cruel world": {
+    [EVERYONE]:
+      "That is the sole method in which we can rebel against cruel world! https://media.discordapp.net/attachments/763827152965337088/764645036272386058/qQmZgWYxtY6sJhyvmKW-p3l5BJ_OW9lciteIiXT4YKwBjHN6bTHZomYrCZSWwco9EIxMbOirDxsJj56m51wEMAVIfVoWzCkrdBBH.png?width=812&height=457 https://www.youtube.com/watch?v=9hh8qaajIXk",
+  },
 };
 
 const getSimpleCommandReply = (authorId, command) => {
