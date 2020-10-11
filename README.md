@@ -4,10 +4,12 @@ TODO: REaction roles menu
 TODO: Logging (with channel exclusions)
 TODO: Figure out how to handle logs (backup to gdrive???)
 TODO: Switch over to typescript and tslint https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html
+TODO: add retries for any network operation
 
 ## Low prio stuff
 
-TODO: delete logs older than a week? or maybe month?
+TODO: setup alerts on new reaction to enby post
+TODO: delete backups older than a week? or maybe month?
 TODO: make separate command for different temperatures in gpt2
 TODO: Make this code guild agnostic
 TODO: add command to list out all commands
