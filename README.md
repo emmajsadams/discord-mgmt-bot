@@ -1,28 +1,35 @@
 # emmabot
 
-TODO: Logging (with channel exclusions)
-TODO: create a ban feature for users that are not part of the server (have json file for the bans because server maintainer can just update that and have bot react on guildMemberJoin)
-TODO: Switch over to typescript and tslint https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html https://github.com/TypeStrong/ts-node https://fireship.io/snippets/hot-reload-node-typescript-server/
+Discord bot used to manage the http://discord.com/frens written in TypeScript for a Node.js environment. The goal of this project is to create bot which will eventually be made generic for any server and configured entirely via json files rather than web interfaces or discord commands like many other bots. It should also provide a nice reusable set of single purpose functions which will be distributed as a library.
 
-## Low priority stuff
+# Todos
 
-TODO: create logging channel keeping track of all emmabot actions.
-TODO: configure githooks to prevent errors before commit (vscode mostly does this ) https://www.robertcooper.me/using-eslint-and-prettier-in-a-typescript-project
-TODO: pull out all configuration into a separate folder to begin the process of making the bot generic
-TODO: add feature to create new vc and text chat when they become full
-TODO: create hydrabot alternative https://discord.js.org/#/docs/main/stable/topics/voice
-TODO: create a dev/test mode that avoids making changes and just logs them instead
-TODO: store all questions of jadebot somewhere for training later
-TODO: add a yes no feature
-TODO: document environment variables and set them up locally in my shell
-TODO: setup alerts on new reaction to enby post
-TODO: delete backups older than a week? or maybe month?
-TODO: make separate command for different temperatures in gpt2
-TODO: Make this code guild agnostic
-TODO: add command to list out all commands
-TODO: Consider adding sticky roles?
-TODO: Consolidate ignore files somehow??
-TODO: add tests
+- TODO: Logging (with channel exclusions)
+- TODO: create a ban feature for users that are not part of the server (have json file for the bans because server maintainer can just update that and have bot react on guildMemberJoin)
+
+## Low priority discord bot stuff
+
+- TODO: create logging channel keeping track of all emmabot actions.
+- TODO: pull out all configuration into a separate folder to begin the process of making the bot generic
+- TODO: add feature to create new vc and text chat when they become full
+- TODO: create hydrabot alternative https://discord.js.org/#/docs/main/stable/topics/voice
+- TODO: store all gpt2 questions somewhere for training later
+- TODO: add a yes no feature
+- TODO: setup alerts on new reaction to enby post
+- TODO: delete backups older than a week? or maybe month?
+- TODO: make separate command for different temperatures in gpt2
+- TODO: Make this code guild agnostic
+- TODO: add command to list out all commands
+- TODO: Consider adding sticky roles?
+- TODO: Consolidate ignore files somehow??
+
+## Low priority dev environment stuff
+
+- TODO: structure this readme in a more thoughtful way
+- TODO: create a dev/test mode that avoids making changes and just logs them instead
+- TODO: document environment files and .dotenv
+- TODO: configure githooks to prevent errors before commit (vscode mostly does this ) https://www.robertcooper.me/using-eslint-and-prettier-in-a-typescript-project
+- TODO: add tests
 
 # Deployment
 
@@ -49,4 +56,5 @@ https://github.com/microsoft/TypeScript/wiki/Node-Target-Mapping
 
 # Typescript
 
+https://fireship.io/snippets/hot-reload-node-typescript-server/
 Migration tool https://github.com/airbnb/ts-migrate/tree/master/packages/ts-migrate
