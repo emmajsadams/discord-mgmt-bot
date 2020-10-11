@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
-    "allowJs": true,
-    "target": "es5",
     "module": "commonjs",
+    "outDir": "./dist",
     "sourceMap": true,
-    "watch": true
+    "strict": false,
+    "allowJs": true,
+    "lib": ["ES2019"],
+    "target": "ES2019"
   },
-  "include": ["./src/**/*"],
-  "compileOnSave": true
+  "compileOnSave": true,
+  "include": ["./src/**/*"]
 }

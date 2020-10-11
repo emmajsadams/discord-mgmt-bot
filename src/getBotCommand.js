@@ -5,12 +5,12 @@ const getBotCommand = (messageContent) => {
   // const atEmmaBotTextInText = message.content.startsWith('@EmmaBot');
   // TODO: figure out how the at mention is represented consistently across mobile, and why exclamation points dont work
   // const EMMA_BOT_ID = '763599207294173234'
-  const emmaBotTextInText = messageContent.startsWith("EmmaBot");
+  const emmaBotTextInText = messageContent.startsWith('EmmaBot')
   if (!emmaBotTextInText) {
-    return null;
+    return null
   }
 
-  return messageContent.substring("EmmaBot ".length).trim();
-};
+  return messageContent.substring('EmmaBot '.length).trim()
+}
 
-module.exports = getBotCommand;
+module.exports = getBotCommand

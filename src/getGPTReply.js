@@ -1,7 +1,7 @@
-const axios = require("axios");
+const axios = require('axios')
 
 // TODO: add basic authentication to my gpt2 api
-const GPT2_API_URL = "http://34.105.75.35/generate";
+const GPT2_API_URL = 'http://34.105.75.35/generate'
 
 const getGPTReply = async (command) => {
   // TODO: add a retry
@@ -10,11 +10,9 @@ const getGPTReply = async (command) => {
       length: 200,
       prefix: command,
     },
-  });
+  })
 
-  return response.status !== 200
-    ? null
-    : response.data.text.split("<|endoftext|>")[0];
-};
+  return response.status !== 200 ? null : response.data.text.split('<|endoftext|>')[0]
+}
 
-module.exports = getGPTReply;
+module.exports = getGPTReply
