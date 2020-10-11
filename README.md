@@ -25,6 +25,7 @@ Discord bot used to manage the http://discord.com/frens written in TypeScript fo
 
 ## Low priority dev environment stuff
 
+- TODO: make tsconfig settings as strict as possible (avoid any, dont allow js, add types for everything)
 - TODO: structure this readme in a more thoughtful way
 - TODO: create a dev/test mode that avoids making changes and just logs them instead
 - TODO: document environment files and .dotenv
