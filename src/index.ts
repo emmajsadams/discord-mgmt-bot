@@ -1,5 +1,3 @@
-console.log('server started')
-
 export {} // TODO: figure out why this is necessary https://medium.com/@muravitskiy.mail/cannot-redeclare-block-scoped-variable-varname-how-to-fix-b1c3d9cc8206
 
 // TODO: move to types folder https://stackoverflow.com/questions/42984889/global-types-in-typescript
@@ -17,16 +15,14 @@ dotenvConfig()
 
 import setupCron from './setupCron'
 import setupEventHandlers from './setupEventHandlers'
-// import setupEventHandlersForLogging from './setupEventHandlersForLogging'
+import setupEventHandlersForLogging from './setupEventHandlersForLogging'
 import setupHttpRetry from './setupHttpRetry'
 import setupServer from './setupServer'
 
+// TODO: Only invoke these functions on ready and login
+console.log('server started')
 setupServer()
-
-// TODO: login and only invoke these functions on ready
 setupCron()
-
-// TODO: temporarly disable logging to avoid ratelimits
-// setupEventHandlersForLogging()
+setupEventHandlersForLogging()
 setupEventHandlers()
 setupHttpRetry()
