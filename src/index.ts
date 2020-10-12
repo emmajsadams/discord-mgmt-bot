@@ -15,7 +15,7 @@ dotenvConfig()
 
 import setupCron from './setupCron'
 import setupEventHandlers from './setupEventHandlers'
-import setupEventHandlersForLogging from './setupEventHandlersForLogging'
+// import setupEventHandlersForLogging from './setupEventHandlersForLogging'
 import setupHttpRetry from './setupHttpRetry'
 import setupServer from './setupServer'
 
@@ -23,6 +23,6 @@ import setupServer from './setupServer'
 console.log('server started')
 setupServer()
 setupCron()
-setupEventHandlersForLogging()
+// setupEventHandlersForLogging()
 setupEventHandlers()
 setupHttpRetry()
