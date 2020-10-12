@@ -28,6 +28,7 @@ Discord bot used to manage the http://discord.com/frens written in TypeScript fo
 
 ## Low priority dev environment stuff
 
+- TODO: change ids to snowflakes
 - TODO: create docker file and migrate to google cloud (with a custom domain name) then shutdown digital ocean instance
 - TODO: make tsconfig settings as strict as possible (avoid any, do not allow js, add types for everything)
 - TODO: structure this readme in a more thoughtful way

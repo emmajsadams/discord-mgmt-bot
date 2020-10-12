@@ -1,14 +1,24 @@
 import DiscordClient from './discordClient'
 import sendMessage from './sendMessage'
+import getMember from './getMember'
 import { isObjectLike, isEmpty } from 'lodash'
 import { FRIENDS_GUILD_ID, MOD_LOG_CHANNEL_ID, PUBLIC_LOG_CHANNEL_ID, ADMIN_LOG_CHANNEL_ID } from './ids'
 
-// TODO: warn for new accounts
+// Member events that are interesting from a moderation perspective
 const memberEventNames = ['guildMemberAdd', 'guildMemberRemove']
-// TODO: Figure out how to handle attachments?
+
+// Message events that are interesting from a moderation perspective
 const messageEventNames = ['messageDelete', 'messageDeleteBulk', 'messageUpdate']
 
+// Channels that should never be listened to because the content is not interested from a moderation perspective
+const ignoredChannels = [
+  '761261936343777313', // # hydra-song-requests
+]
+
+// Channels focused on logging and thus should not be listened to for message events
 const loggingChannels = [MOD_LOG_CHANNEL_ID, PUBLIC_LOG_CHANNEL_ID, ADMIN_LOG_CHANNEL_ID]
+
+// Channels that should only be viewed by those with the administrator role above normal mods
 const administratorChannels = [
   '764415739423096832', // #council-backups
   '761323976303050802', // #council-chat
@@ -16,6 +26,7 @@ const administratorChannels = [
   '763182857555673089', // #cuties-nsfw
 ]
 
+// Event properties that should never be printed
 const blackListedPrintProperties = [
   'guildID', // messages posted in the guild specific log already
   'defaultAvatarURL', // this is the same for all users and does not matter for logging purposes
@@ -33,9 +44,14 @@ const blackListedPrintProperties = [
   'type', // Not important for the events tracked by this bot https://discord.com/developers/docs/resources/channel#message-object-message-types
   'system', // not important for moderation and will not happen given the events tracked
 ]
-const blacklistedZeroPrintProperties = ['flags', 'editedTimestamp', 'createdTimestamp']
 
-// TODO: look up cahnnel and
+// Event properties that should not be printed if the value is zero
+const blacklistedZeroPrintProperties = [
+  'flags', // 0 just means default message and is not interesting for moderation
+  'editedTimestamp', // 0 timestamp means the timestamp does not exist
+  'createdTimestamp', // 0 timestamp means the timestamp does not exist
+]
+
 function jsonStringifyReplacer(name, val) {
   if (blackListedPrintProperties.includes(name)) {
     return undefined
@@ -64,6 +80,10 @@ function printEvent(eventName: string, eventArgs: any[]): string {
   return eventName + '\n```\n' + JSON.stringify(eventArgs, jsonStringifyReplacer, 2) + '\n```'
 }
 
+// TODO: loook up channel id
+// TODO: create special warning channel for new users
+// TODO: Figure out how to handle attachments?
+// TODO: warn for new accounts
 function setupEventHandlers(
   eventNames: string[],
   loggingChannelId: string,
@@ -76,21 +96,29 @@ function setupEventHandlers(
     }
 
     DiscordClient.on(eventName, async (...args: any[]) => {
-      if (!channelBlacklist && !channelWhitelist) {
+      if (!channelBlacklist || !channelWhitelist) {
         for (const arg in args) {
           const channelId = arg['channelId']
-
           if (channelBlacklist && channelBlacklist.includes(channelId)) {
             return
           }
-
           if (channelWhitelist && !channelWhitelist.includes(channelId)) {
             return
+          }
+
+          const userId = arg['userID']
+          const authorID = arg['authorID']
+          if (userId) {
+            arg['user'] = await getMember(FRIENDS_GUILD_ID, userId)
+            console.log(arg)
+          }
+          if (authorID) {
+            arg['author'] = await getMember(FRIENDS_GUILD_ID, authorID)
+            console.log(arg)
           }
         }
       }
 
-      console.log(loggingChannelId)
       await sendMessage(FRIENDS_GUILD_ID, loggingChannelId, printEvent(eventName, args))
     })
   }
@@ -98,7 +126,12 @@ function setupEventHandlers(
 
 // Message schema - https://discord.com/developers/docs/resources/channel#message-object
 export default function setupEventHandlersForLogging(): void {
-  setupEventHandlers(memberEventNames, PUBLIC_LOG_CHANNEL_ID, null, null)
-  setupEventHandlers(messageEventNames, MOD_LOG_CHANNEL_ID, loggingChannels.concat(administratorChannels), null)
+  setupEventHandlers(memberEventNames, PUBLIC_LOG_CHANNEL_ID, null, null) // channel whitelists or blacklists are not needed for member events
+  setupEventHandlers(
+    messageEventNames,
+    MOD_LOG_CHANNEL_ID,
+    loggingChannels.concat(administratorChannels, ignoredChannels),
+    null,
+  )
   setupEventHandlers(messageEventNames, ADMIN_LOG_CHANNEL_ID, null, administratorChannels)
 }
