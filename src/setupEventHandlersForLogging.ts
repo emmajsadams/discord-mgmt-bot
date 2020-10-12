@@ -34,7 +34,7 @@ const eventHandlerNames = [
   'messageReactionRemoveAll',
   'messageReactionRemoveEmoji',
   'messageUpdate',
-  'rateLimit', // TODO: figure out how to handle this
+  // 'rateLimit', // TODO: figure out how to handle this
   'roleCreate',
   'roleDelete',
   'roleUpdate',
