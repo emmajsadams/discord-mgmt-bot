@@ -2,13 +2,9 @@
 
 Discord bot used to manage the http://discord.com/frens written in TypeScript for a Node.js environment. The goal of this project is to create bot which will eventually be made generic for any server and configured entirely via json files rather than web interfaces or discord commands like many other bots. It should also provide a nice reusable set of single purpose functions which will be distributed as a library.
 
-# Todos
+## TODOS (need to sort through these)
 
-- TODO: Logging (with channel exclusions)
 - TODO: create a ban feature for users that are not part of the server (have json file for the bans because server maintainer can just update that and have bot react on guildMemberJoin)
-
-## Low priority discord bot stuff
-
 - TODO: statistics on how often channels and bots are used
 - TODO: automatically disconnect afk people
 - TODO: I'm going to create a hall of fame board for posts that get a certain number of reacts :ThanosOkay:
