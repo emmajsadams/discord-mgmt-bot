@@ -1,13 +1,21 @@
 {
   "compilerOptions": {
+    "incremental": true,
     "module": "commonjs",
+    "moduleResolution": "node",
     "outDir": "./dist",
     "sourceMap": true,
     "strict": false,
     "allowJs": true,
     "lib": ["ES2019"],
-    "target": "ES2019"
+    "target": "ES2019",
+    "tsBuildInfoFile": "./buildcache/front-end"
   },
   "compileOnSave": true,
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "watchOptions": {
+    "watchFile": "useFsEvents",
+    "watchDirectory": "useFsEvents",
+    "fallbackPolling": "dynamicPriority"
+  }
 }
