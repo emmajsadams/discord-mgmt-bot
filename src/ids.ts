@@ -1,5 +1,7 @@
 import { S3 } from 'aws-sdk'
 
+export const LOG_CHANNEL_ID = '765005154377400350'
+export const BACKUPS_CHANNEL_ID = '764415739423096832'
 export const EMMA_USER_ID = '325088597286060044'
 export const EVERYONE_USER_ID = 'everyone'
 export const FRIENDS_GUILD_ID = '761254466979889153'
