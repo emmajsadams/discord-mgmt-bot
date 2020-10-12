@@ -9,6 +9,13 @@ Discord bot used to manage the http://discord.com/frens written in TypeScript fo
 
 ## Low priority discord bot stuff
 
+- TODO: statistics on how often channels and bots are used
+- TODO: automatically disconnect afk people
+- TODO: I'm going to create a hall of fame board for posts that get a certain number of reacts :ThanosOkay:
+- TODO: create an invite webapp that keeps track of both sides the invite https://discord.js.org/#/docs/main/stable/class/Invite?scrollTo=targetUser
+  - have a link to create invites oauth2
+  - generate link for person to join
+  - potentially use some sort of staging area, allow them join
 - TODO: create logging channel keeping track of all emmabot actions.
 - TODO: pull out all configuration into a separate folder to begin the process of making the bot generic
 - TODO: add feature to create new vc and text chat when they become full
@@ -25,7 +32,8 @@ Discord bot used to manage the http://discord.com/frens written in TypeScript fo
 
 ## Low priority dev environment stuff
 
-- TODO: make tsconfig settings as strict as possible (avoid any, dont allow js, add types for everything)
+- TODO: create docker file and migrate to google cloud (with a custom domain name) then shutdown digital ocean instance
+- TODO: make tsconfig settings as strict as possible (avoid any, do not allow js, add types for everything)
 - TODO: structure this readme in a more thoughtful way
 - TODO: create a dev/test mode that avoids making changes and just logs them instead
 - TODO: document environment files and .dotenv
