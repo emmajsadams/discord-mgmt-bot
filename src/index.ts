@@ -17,7 +17,7 @@ dotenvConfig()
 
 import setupCron from './setupCron'
 import setupEventHandlers from './setupEventHandlers'
-import setupEventHandlersForLogging from './setupEventHandlersForLogging'
+// import setupEventHandlersForLogging from './setupEventHandlersForLogging'
 import setupHttpRetry from './setupHttpRetry'
 import setupServer from './setupServer'
 
@@ -25,6 +25,8 @@ setupServer()
 
 // TODO: login and only invoke these functions on ready
 setupCron()
-setupEventHandlersForLogging()
+
+// TODO: temporarly disable logging to avoid ratelimits
+// setupEventHandlersForLogging()
 setupEventHandlers()
 setupHttpRetry()
