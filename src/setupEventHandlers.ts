@@ -62,6 +62,8 @@ export default function setupEventHandlers() {
       return
     }
 
-    message.reply("I'm afraid I can't do that https://www.youtube.com/watch?v=ARJ8cAGm6JE&t=59s")
+    message.reply(
+      "I'm afraid I can't do that https://www.youtube.com/watch?v=ARJ8cAGm6JE&t=59s",
+    )
   })
 }

@@ -50,7 +50,11 @@ function start() {
 }
 
 function build(exit) {
-  const compileTypeScriptProcess = childProcess.spawn('yarn run build', [], spawnOptions)
+  const compileTypeScriptProcess = childProcess.spawn(
+    'yarn run build',
+    [],
+    spawnOptions,
+  )
   streamOutputToConsole(compileTypeScriptProcess)
   compileTypeScriptProcess.on('exit', exit)
 }

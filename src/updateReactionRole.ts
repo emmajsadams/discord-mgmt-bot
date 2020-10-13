@@ -35,7 +35,11 @@ const messageToRoleReactionDict = {
 
 // TODO: consider separate add and remove function
 // addRole: true add role, false remove role
-export default async function updateReactionRole(messageReaction, user, addRole) {
+export default async function updateReactionRole(
+  messageReaction,
+  user,
+  addRole,
+) {
   const guild = await DiscordClient.guilds.fetch(FRIENDS_GUILD_ID)
 
   const messageId = messageReaction.message.id
