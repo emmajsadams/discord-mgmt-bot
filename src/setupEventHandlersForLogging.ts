@@ -1,5 +1,4 @@
 import DiscordClient from './discordClient'
-import sendMessage from './sendMessage'
 import {
   GuildMember,
   Snowflake,
@@ -7,10 +6,8 @@ import {
   TextChannel,
   MessageEmbed,
   MessageOptions,
-  User,
 } from 'discord.js'
 import {
-  FRIENDS_GUILD_ID,
   MOD_LOG_CHANNEL_ID,
   PUBLIC_LOG_CHANNEL_ID,
   ADMIN_LOG_CHANNEL_ID,
@@ -19,6 +16,7 @@ import {
   LOGGING_CHANNELS,
   ADMIN_CHANNELS,
   IGNORED_CHANNELS,
+  ChannelsFilterType,
 } from './config/channels'
 import getRelativeTime from './getRelativeTime'
 import getMessageLink from './getMessageLink'
@@ -52,11 +50,6 @@ const EVENT_EMBED_PROPERTIES = {
     color: 'RED',
     name: '💢Guild Member Remove💢',
   },
-}
-
-enum ChannelsFilterType {
-  Allow,
-  Deny,
 }
 
 async function sendLogForGuildMember(
@@ -201,9 +194,11 @@ async function sendLogForMessage(
     }))
   }
 
-  // TODO: rather than try catch, check attachment size for exceeding limit then just upload to s3
-  // // TODO: handle errors for attachments too large and upload to sr
-  // // import getSignedS3Url from './getSignedS3Url'
+  // TODO: for level 3 servers the limit of the bot should be the same as max possible (100mb)
+  // however sometimes it failed locally on my machine... but on digital ocean it seems to succeed
+  //
+  // in other cases and in that failure case I could try uploading to s3 instead? then link it in the message
+  // and report in an error logs. use getSignedS3Url
   try {
     return await loggingChannel.send(message.content, messageOptions)
   } catch (error) {
@@ -211,7 +206,7 @@ async function sendLogForMessage(
       messageOptions['files'] = []
       messageEmbed.addField(
         'Attachment',
-        'too large to upload to discord. TODO upload to s3 and post link here',
+        'Failed to upload, report to developer',
       )
 
       return await loggingChannel.send(message.content, messageOptions)

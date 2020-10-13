@@ -4,6 +4,11 @@ import {
   ADMIN_LOG_CHANNEL_ID,
 } from '../ids'
 
+export enum ChannelsFilterType {
+  Allow,
+  Deny,
+}
+
 export const NEW_ACCOUNT_WARNINGS = '765451731479822406'
 
 // TODO: move rest of channels to this config file
