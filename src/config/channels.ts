@@ -16,6 +16,12 @@ export const IGNORED_CHANNELS = [
   '761261936343777313', // # hydra-song-requests
 ]
 
+export const BACKUP_CHANNELS = [
+  '765692417168113684', // #public-backups
+  '765692392899870731', // #mod-backups
+  '764415739423096832', // #council-backups
+]
+
 export const LOGGING_CHANNELS = [
   MOD_LOG_CHANNEL_ID,
   PUBLIC_LOG_CHANNEL_ID,

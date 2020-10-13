@@ -16,6 +16,7 @@ import {
   LOGGING_CHANNELS,
   ADMIN_CHANNELS,
   IGNORED_CHANNELS,
+  BACKUP_CHANNELS,
   ChannelsFilterType,
 } from './config/channels'
 import getRelativeTime from './getRelativeTime'
@@ -317,7 +318,7 @@ export default function setupEventHandlersForLogging(): void {
   setupMemberHandlers(PUBLIC_LOG_CHANNEL_ID)
   setupMessageHandlers(
     MOD_LOG_CHANNEL_ID,
-    LOGGING_CHANNELS.concat(ADMIN_CHANNELS, IGNORED_CHANNELS),
+    LOGGING_CHANNELS.concat(ADMIN_CHANNELS, IGNORED_CHANNELS, BACKUP_CHANNELS),
     ChannelsFilterType.Deny,
   )
   setupMessageHandlers(
