@@ -1,137 +1,310 @@
 import DiscordClient from './discordClient'
 import sendMessage from './sendMessage'
-import getMember from './getMember'
-import { isObjectLike, isEmpty } from 'lodash'
-import { FRIENDS_GUILD_ID, MOD_LOG_CHANNEL_ID, PUBLIC_LOG_CHANNEL_ID, ADMIN_LOG_CHANNEL_ID } from './ids'
+import {
+  GuildMember,
+  Snowflake,
+  Message,
+  TextChannel,
+  MessageEmbed,
+  MessageOptions,
+  User,
+} from 'discord.js'
+import {
+  FRIENDS_GUILD_ID,
+  MOD_LOG_CHANNEL_ID,
+  PUBLIC_LOG_CHANNEL_ID,
+  ADMIN_LOG_CHANNEL_ID,
+} from './ids'
+import {
+  LOGGING_CHANNELS,
+  ADMIN_CHANNELS,
+  IGNORED_CHANNELS,
+} from './config/channels'
+import getRelativeTime from './getRelativeTime'
+import getMessageLink from './getMessageLink'
 
-// Member events that are interesting from a moderation perspective
-const memberEventNames = ['guildMemberAdd', 'guildMemberRemove']
-
-// Message events that are interesting from a moderation perspective
-const messageEventNames = ['messageDelete', 'messageDeleteBulk', 'messageUpdate']
-
-// Channels that should never be listened to because the content is not interested from a moderation perspective
-const ignoredChannels = [
-  '761261936343777313', // # hydra-song-requests
-]
-
-// Channels focused on logging and thus should not be listened to for message events
-const loggingChannels = [MOD_LOG_CHANNEL_ID, PUBLIC_LOG_CHANNEL_ID, ADMIN_LOG_CHANNEL_ID]
-
-// Channels that should only be viewed by those with the administrator role above normal mods
-const administratorChannels = [
-  '764415739423096832', // #council-backups
-  '761323976303050802', // #council-chat
-  '763170044984688640', // #cuties-chat
-  '763182857555673089', // #cuties-nsfw
-]
-
-// Event properties that should never be printed
-const blackListedPrintProperties = [
-  'guildID', // messages posted in the guild specific log already
-  'defaultAvatarURL', // this is the same for all users and does not matter for logging purposes
-  'discriminator', // tag and user id make this clear, separate field is unnecessary
-  'username', // tag and user id make this clear, separate field is unnecessary
-  'avatar', // avatarURl is enough
-  'nonce', // only for debugging if the message was correctly sent
-  'me', // almost all events will be not bot commands, and userId is enough
-  'bot', // almost all events will be not bot commands, and userId is enough
-  'lastMessageChannelID', // never necessary since rest of event contains all info
-  'avatarURL', // displayAvatarURL is good enough
-  'deleted', // Not needed because the event indicates if the message is deleted,
-  'tts', // tts is often turned off and not valuable for moderation
-  'pinned', // pinned status is tracked by audit log and not valuable for moderation
-  'type', // Not important for the events tracked by this bot https://discord.com/developers/docs/resources/channel#message-object-message-types
-  'system', // not important for moderation and will not happen given the events tracked
-]
-
-// Event properties that should not be printed if the value is zero
-const blacklistedZeroPrintProperties = [
-  'flags', // 0 just means default message and is not interesting for moderation
-  'editedTimestamp', // 0 timestamp means the timestamp does not exist
-  'createdTimestamp', // 0 timestamp means the timestamp does not exist
-]
-
-function jsonStringifyReplacer(name, val) {
-  if (blackListedPrintProperties.includes(name)) {
-    return undefined
-  }
-
-  if (val === undefined || val == null) {
-    return undefined
-  }
-
-  if (isObjectLike(val) && isEmpty(val)) {
-    return undefined
-  }
-
-  if (blacklistedZeroPrintProperties.includes(name) && val === 0) {
-    return undefined
-  }
-
-  if (name.toLowerCase().endsWith('timestamp')) {
-    return new Date(val).toTimeString()
-  }
-
-  return val
+enum EventName {
+  MessageCreate = 'message',
+  MessageDelete = 'messageDelete',
+  MessageUpdate = 'messageUpdate',
+  GuildMemberAdd = 'guildMemberAdd',
+  GuildMemberRemove = 'guildMemberRemove',
 }
 
-function printEvent(eventName: string, eventArgs: any[]): string {
-  return eventName + '\n```\n' + JSON.stringify(eventArgs, jsonStringifyReplacer, 2) + '\n```'
+const EVENT_EMBED_PROPERTIES = {
+  [EventName.MessageCreate]: {
+    color: 'GREEN',
+    name: '🎆Message Created!🎆',
+  },
+  [EventName.MessageUpdate]: {
+    color: 'YELLOW',
+    name: '👷‍♀️Message Update👷‍♀️',
+  },
+  [EventName.MessageDelete]: {
+    color: 'RED',
+    name: '💢Message Delete💢',
+  },
+  [EventName.GuildMemberAdd]: {
+    color: 'GREEN',
+    name: '🎆Guild Member Add🎆',
+  },
+  [EventName.GuildMemberRemove]: {
+    color: 'RED',
+    name: '💢Guild Member Remove💢',
+  },
 }
 
-// TODO: loook up channel id
-// TODO: create special warning channel for new users
-// TODO: Figure out how to handle attachments?
-// TODO: warn for new accounts
-function setupEventHandlers(
-  eventNames: string[],
+enum ChannelsFilterType {
+  Allow,
+  Deny,
+}
+
+async function sendLogForGuildMember(
+  member: GuildMember,
+  eventName: EventName,
   loggingChannelId: string,
-  channelBlacklist: string[] | null,
-  channelWhitelist: string[] | null,
-) {
-  for (const eventName of eventNames) {
-    if (channelBlacklist && channelWhitelist) {
-      throw new Error('Cannot define whitelist and blacklist')
+): Promise<Message | null> {
+  const loggingChannel = (await member.guild.channels.cache
+    .get(loggingChannelId)
+    .fetch()) as TextChannel
+  const embedProperties = EVENT_EMBED_PROPERTIES[eventName]
+  const messageEmbed = new MessageEmbed()
+    .addFields(
+      {
+        name: 'Event Type',
+        value: embedProperties.name,
+      },
+      {
+        name: 'Member Tag',
+        value: member.user.tag,
+      },
+      {
+        name: 'Member Id',
+        value: member.user.tag,
+      },
+      {
+        name: 'Member Created',
+        value: getRelativeTime(new Date(member.user.createdTimestamp)),
+      },
+      {
+        name: 'Member Created Timestamp',
+        value: member.user.createdTimestamp,
+      },
+    )
+    .setColor(embedProperties.color)
+
+  const messageOptions: MessageOptions = {
+    embed: messageEmbed,
+    disableMentions: 'all',
+  }
+
+  return await loggingChannel.send('', messageOptions)
+}
+
+function setupGuildMemberDeleteEventHandler(loggingChannelId: Snowflake): void {
+  DiscordClient.on(
+    EventName.GuildMemberRemove.toString(),
+    async (member: GuildMember) => {
+      await sendLogForGuildMember(
+        member,
+        EventName.GuildMemberRemove,
+        loggingChannelId,
+      )
+    },
+  )
+}
+
+function setupGuildMemberAddEventHandler(loggingChannelId: Snowflake): void {
+  DiscordClient.on(
+    EventName.GuildMemberAdd.toString(),
+    async (member: GuildMember) => {
+      await sendLogForGuildMember(
+        member,
+        EventName.GuildMemberAdd,
+        loggingChannelId,
+      )
+    },
+  )
+}
+
+function setupMemberHandlers(loggingChannelId: Snowflake) {
+  setupGuildMemberDeleteEventHandler(loggingChannelId)
+  setupGuildMemberAddEventHandler(loggingChannelId)
+}
+
+// Return true if the event should not be logged, false if the event should be logged
+function filterChannel(
+  channelId: Snowflake,
+  channels: Snowflake[],
+  channelsFilterType: ChannelsFilterType,
+): boolean {
+  if (channelsFilterType === ChannelsFilterType.Allow) {
+    return !channels.includes(channelId)
+  }
+
+  return channels.includes(channelId)
+}
+
+async function sendLogForMessage(
+  message: Message,
+  eventName: EventName,
+  loggingChannelId: string,
+  sendAttachments: boolean,
+): Promise<Message | null> {
+  const loggingChannel = (await message.guild.channels.cache
+    .get(loggingChannelId)
+    .fetch()) as TextChannel
+
+  const embedProperties = EVENT_EMBED_PROPERTIES[eventName]
+  const messageEmbed = new MessageEmbed()
+    .addFields(
+      {
+        name: 'Event Type',
+        value: embedProperties.name,
+      },
+      {
+        name: 'Member Tag',
+        value: message.author.tag,
+      },
+      {
+        name: 'Member Id',
+        value: message.author.id,
+      },
+      {
+        name: 'Channel Name',
+        value: `<#${message.channel.id}>`,
+      },
+      {
+        name: 'Message Link',
+        value: getMessageLink(message),
+      },
+    )
+    .setColor(embedProperties.color)
+
+  const messageOptions: MessageOptions = {
+    embed: messageEmbed,
+    disableMentions: 'all',
+  }
+
+  if (sendAttachments) {
+    messageOptions['files'] = message.attachments.map((attachment) => ({
+      attachment: attachment.url,
+      name: attachment.name,
+    }))
+  }
+
+  // TODO: rather than try catch, check attachment size for exceeding limit then just upload to s3
+  // // TODO: handle errors for attachments too large and upload to sr
+  // // import getSignedS3Url from './getSignedS3Url'
+  try {
+    return await loggingChannel.send(message.content, messageOptions)
+  } catch (error) {
+    if (sendAttachments) {
+      messageOptions['files'] = []
+      messageEmbed.addField(
+        'Attachment',
+        'too large to upload to discord. TODO upload to s3 and post link here',
+      )
+
+      return await loggingChannel.send(message.content, messageOptions)
     }
+    // TODO: figure out what to do in the case of a message send failing not for too large of an upload? is this even possible?
+  }
 
-    DiscordClient.on(eventName, async (...args: any[]) => {
-      if (!channelBlacklist || !channelWhitelist) {
-        for (const arg in args) {
-          const channelId = arg['channelId']
-          if (channelBlacklist && channelBlacklist.includes(channelId)) {
-            return
-          }
-          if (channelWhitelist && !channelWhitelist.includes(channelId)) {
-            return
-          }
+  // TODO: figure out what to do in this case
+  return Promise.resolve(null)
+}
 
-          const userId = arg['userID']
-          const authorID = arg['authorID']
-          if (userId) {
-            arg['user'] = await getMember(FRIENDS_GUILD_ID, userId)
-            console.log(arg)
-          }
-          if (authorID) {
-            arg['author'] = await getMember(FRIENDS_GUILD_ID, authorID)
-            console.log(arg)
-          }
-        }
+function setupMessageDeleteHandler(
+  loggingChannelId: Snowflake,
+  channels: Snowflake[],
+  channelsFilterType: ChannelsFilterType,
+): void {
+  DiscordClient.on(
+    EventName.MessageDelete,
+    async (message: Message): Promise<void> => {
+      if (filterChannel(message.channel.id, channels, channelsFilterType)) {
+        return
       }
 
-      await sendMessage(FRIENDS_GUILD_ID, loggingChannelId, printEvent(eventName, args))
-    })
-  }
+      // NOTE: attachments are not added because they will be removed after the message is deleted
+      await sendLogForMessage(
+        message,
+        EventName.MessageDelete,
+        loggingChannelId,
+        false,
+      )
+    },
+  )
 }
 
-// Message schema - https://discord.com/developers/docs/resources/channel#message-object
-export default function setupEventHandlersForLogging(): void {
-  setupEventHandlers(memberEventNames, PUBLIC_LOG_CHANNEL_ID, null, null) // channel whitelists or blacklists are not needed for member events
-  setupEventHandlers(
-    messageEventNames,
-    MOD_LOG_CHANNEL_ID,
-    loggingChannels.concat(administratorChannels, ignoredChannels),
-    null,
+function setupMessageCreateHandler(
+  loggingChannelId: Snowflake,
+  channels: Snowflake[],
+  channelsFilterType: ChannelsFilterType,
+): void {
+  DiscordClient.on(
+    EventName.MessageCreate,
+    async (message: Message): Promise<void> => {
+      if (filterChannel(message.channel.id, channels, channelsFilterType)) {
+        return
+      }
+
+      await sendLogForMessage(
+        message,
+        EventName.MessageCreate,
+        loggingChannelId,
+        true,
+      )
+    },
   )
-  setupEventHandlers(messageEventNames, ADMIN_LOG_CHANNEL_ID, null, administratorChannels)
+}
+
+function setupMessageUpdateHandler(
+  loggingChannelId: Snowflake,
+  channels: Snowflake[],
+  channelsFilterType: ChannelsFilterType,
+): void {
+  DiscordClient.on(
+    EventName.MessageUpdate,
+    async (oldMessage: Message, newMessage: Message): Promise<void> => {
+      if (filterChannel(newMessage.channel.id, channels, channelsFilterType)) {
+        return
+      }
+
+      // NOTE: attachments are not added because they cannot be updated after the message is created and the message created
+      // log includes the attachments
+      await sendLogForMessage(
+        newMessage,
+        EventName.MessageUpdate,
+        loggingChannelId,
+        false,
+      )
+    },
+  )
+}
+
+function setupMessageHandlers(
+  loggingChannelId: Snowflake,
+  channels: Snowflake[],
+  channelsFilterType: ChannelsFilterType,
+): void {
+  setupMessageCreateHandler(loggingChannelId, channels, channelsFilterType)
+  setupMessageDeleteHandler(loggingChannelId, channels, channelsFilterType)
+  setupMessageUpdateHandler(loggingChannelId, channels, channelsFilterType)
+}
+
+// TODO: Create a fallback for too much text? need to test it out
+export default function setupEventHandlersForLogging(): void {
+  setupMemberHandlers(PUBLIC_LOG_CHANNEL_ID)
+  setupMessageHandlers(
+    MOD_LOG_CHANNEL_ID,
+    LOGGING_CHANNELS.concat(ADMIN_CHANNELS, IGNORED_CHANNELS),
+    ChannelsFilterType.Deny,
+  )
+  setupMessageHandlers(
+    ADMIN_LOG_CHANNEL_ID,
+    ADMIN_CHANNELS,
+    ChannelsFilterType.Allow,
+  )
 }
