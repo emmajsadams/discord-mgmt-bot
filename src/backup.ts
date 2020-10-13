@@ -8,8 +8,6 @@ import sendMessage from './sendMessage'
 
 const BACKUPS_FOLDER = '/backups/'
 
-// TODO: figure out how to handle all attachmeents
-// TODO: confirm audit log is backed up
 export default async function backup(): Promise<string> {
   setStorageFolder(__dirname + '/..' + BACKUPS_FOLDER) // TODO: do I need dirname?
 
