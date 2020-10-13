@@ -2,9 +2,10 @@ import { createReadStream } from 'fs'
 import { setStorageFolder, create as createBackup } from 'discord-backup'
 import { FRIENDS_GUILD_ID, BACKUPS_CHANNEL_ID } from './ids'
 import DiscordClient from './discordClient'
-import getSignedS3Url from './getSignedS3Url'
-import uploadFileToS3 from './uploadFileToS3'
-import sendMessage from './sendMessage'
+// import getSignedS3Url from './getSignedS3Url'
+// import uploadFileToS3 from './uploadFileToS3'
+// import sendMessage from './sendMessage'
+import { TextChannel, MessageAttachment } from 'discord.js'
 
 const BACKUPS_FOLDER = '/backups/'
 
@@ -23,16 +24,24 @@ export default async function backup(): Promise<string> {
 
   const fileName = backupId + '.json'
   const fileStream = createReadStream('.' + BACKUPS_FOLDER + fileName)
-  await uploadFileToS3(fileStream, fileName)
 
-  const presignedUrl = await getSignedS3Url(fileName)
+  // await uploadFileToS3(fileStream, fileName)
+  // TODO: just upload this.. it should work. only fallback to s3 if it fails
+  // const presignedUrl = await getSignedS3Url(fileName)
+  const attachment = new MessageAttachment(fileStream, fileName)
 
-  await sendMessage(
-    FRIENDS_GUILD_ID,
-    BACKUPS_CHANNEL_ID,
-    'Here is the latest full server backup for the Friends server. This backup should never be shared with anyone not on the council because it includes all channels. ' +
-      presignedUrl,
+  const channel = guild.channels.cache.get(BACKUPS_CHANNEL_ID) as TextChannel
+  channel.send(
+    'Here is the latest full server backup for the Friends server. This backup should never be shared with anyone not on the council because it includes all channels. ',
+    attachment,
   )
+
+  // await sendMessage(
+  //   FRIENDS_GUILD_ID,
+  //   BACKUPS_CHANNEL_ID,
+  //   'Here is the latest full server backup for the Friends server. This backup should never be shared with anyone not on the council because it includes all channels. ' +
+  //     presignedUrl,
+  // )
 
   return Promise.resolve(backupId)
 }
