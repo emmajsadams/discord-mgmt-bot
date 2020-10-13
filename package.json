@@ -26,6 +26,7 @@
     "erlpack": "discord/erlpack",
     "express": "4.17.1",
     "ffmpeg-static": "4.2.7",
+    "javascript-time-ago": "2.2.8",
     "libsodium-wrappers": "0.7.8",
     "lodash": "4.17.20",
     "node-cron": "2.0.3",
