@@ -9,13 +9,9 @@
     "allowJs": true,
     "lib": ["ES2019"],
     "target": "ES2019",
-    "tsBuildInfoFile": "./buildcache/front-end"
+    "tsBuildInfoFile": "./buildcache/front-end",
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
-  "compileOnSave": true,
-  "include": ["./src/**/*"],
-  "watchOptions": {
-    "watchFile": "useFsEvents",
-    "watchDirectory": "useFsEvents",
-    "fallbackPolling": "dynamicPriority"
-  }
+  "include": ["./src/**/*"]
 }
