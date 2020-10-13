@@ -12,7 +12,7 @@ const messageFilterDict = {
   },
 }
 
-export default function filterMessage(messageContent) {
+export default function filterMessage(messageContent): string {
   for (const filterName in messageFilterDict) {
     const filter = messageFilterDict[filterName]
     if (filter.regex.test(messageContent)) {
