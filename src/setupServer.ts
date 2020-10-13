@@ -1,7 +1,7 @@
-import * as express from 'express'
+import express from 'express'
 import backup from './backup'
 
-export default function setupServer() {
+export default function setupServer(): void {
   const app = express()
 
   app.get('/', async (req, res) => {
@@ -12,7 +12,8 @@ export default function setupServer() {
   app.get('/backup', async (req, res) => {
     res.send({
       success: true,
-      message: 'Backup started in background, check server ./backups for json file',
+      message:
+        'Backup started in background, check server ./backups for json file',
     })
     await backup()
   })
@@ -20,6 +21,4 @@ export default function setupServer() {
   app.listen(8080, () => {
     console.log('express server started on port 8080')
   })
-
-  return app
 }
