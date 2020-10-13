@@ -7,10 +7,14 @@ import getBotCommand from './getBotCommand'
 import getGPTReply from './getGPTReply'
 import filterMessage from './filterMessage'
 import updateReactionRole from './updateReactionRole'
+import { LOGGING_CHANNELS, ChannelsFilterType } from './config/channels'
+import { EMMA_BOT, SECONDARY_BOTS } from './config/users'
+import getDiscordClient from './getDiscordClient'
 
 export default function setupEventHandlers() {
   DiscordClient.on('ready', async () => {
     console.log(`Logged in as ${DiscordClient.user.tag}!`)
+    DiscordClient.user.setPresence(EMMA_BOT.presence)
     const guild = await DiscordClient.guilds.fetch(FRIENDS_GUILD_ID)
 
     // Cache all messages
@@ -19,8 +23,6 @@ export default function setupEventHandlers() {
       // @ts-expect-error ts-migrate(2339) FIXME: Property 'messages' does not exist on type 'GuildC... Remove this comment to see the full error message
       await channel.messages.fetch(CACHED_MESSAGES[channelId])
     }
-
-    console.log('Messages cached')
   })
 
   DiscordClient.on('messageReactionAdd', async (messageReaction, user) => {
@@ -42,12 +44,18 @@ export default function setupEventHandlers() {
       message.reply(filterReason)
     }
 
-    const botCommand = getBotCommand(message.content)
+    const botCommand = getBotCommand(
+      message,
+      EMMA_BOT,
+      LOGGING_CHANNELS,
+      ChannelsFilterType.Deny,
+    )
     if (!botCommand) {
       return
     }
 
     // React to signify the bot is processing a command
+    // TODO: change this to be in user config
     message.react(EMMA_PRAY_EMOJI)
 
     let reply = getSimpleCommandReply(message.author.id, botCommand)
@@ -66,4 +74,11 @@ export default function setupEventHandlers() {
       "I'm afraid I can't do that https://www.youtube.com/watch?v=ARJ8cAGm6JE&t=59s",
     )
   })
+
+  for (const botConfig of SECONDARY_BOTS) {
+    const discordClient = getDiscordClient(botConfig)
+    discordClient.on('ready', () => {
+      discordClient.user.setPresence(botConfig.presence)
+    })
+  }
 }
