@@ -1,14 +1,29 @@
-export default function getBotCommand(messageContent) {
-  // TODO: figure out why message content is inconsistent between desktop and mobile
-  // content: '<@!763599207294173234> tell me something random',
-  // const emmaMentionedUser = message.mentions.users.get(EMMA_BOT_ID);
-  // const atEmmaBotTextInText = message.content.startsWith('@EmmaBot');
-  // TODO: figure out how the at mention is represented consistently across mobile, and why exclamation points don't work
-  // const EMMA_BOT_ID = '763599207294173234'
-  const emmaBotTextInText = messageContent.startsWith('EmmaBot')
-  if (!emmaBotTextInText) {
-    return null
+import { Message, Snowflake } from 'discord.js'
+import { UserConfig } from './config/users'
+import { ChannelsFilterType } from './config/channels'
+import filterChannel from './filterChannel'
+
+// TODO: return cleanCommand and mentioned specific command
+export default function getBotCommand(
+  message: Message,
+  botConfig: UserConfig,
+  channels: Snowflake[],
+  channelsFilterType: ChannelsFilterType,
+): string {
+  if (filterChannel(message.channel.id, channels, channelsFilterType)) {
+    return ''
   }
 
-  return messageContent.substring('EmmaBot '.length).trim()
+  let messageContent = message.cleanContent
+
+  // Remove at mention symbol to allow text or mention syntax
+  if (messageContent[0] === '@') {
+    messageContent = messageContent.substring(1)
+  }
+
+  if (!messageContent.startsWith(botConfig.name)) {
+    return ''
+  }
+
+  return messageContent.substring(`${botConfig.name} `.length)
 }
