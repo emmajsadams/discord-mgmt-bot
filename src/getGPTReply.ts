@@ -12,5 +12,7 @@ export default async function getGPTReply(command) {
     },
   })
 
-  return response.status !== 200 ? null : response.data.text.split('<|endoftext|>')[0]
+  return response.status !== 200
+    ? null
+    : response.data.text.split('<|endoftext|>')[0]
 }
