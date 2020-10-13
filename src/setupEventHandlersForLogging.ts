@@ -300,6 +300,7 @@ function setupMessageUpdateHandler(
   )
 }
 
+// TODO: figure out a way for these to actually show the emojis rather than text
 function setupMessageHandlers(
   loggingChannelId: Snowflake,
   channels: Snowflake[],

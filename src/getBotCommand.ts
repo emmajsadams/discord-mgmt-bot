@@ -3,6 +3,7 @@ import { UserConfig } from './config/users'
 import { ChannelsFilterType } from './config/channels'
 import filterChannel from './filterChannel'
 
+// TODO: figure out why mentions still broke
 // TODO: return cleanCommand and mentioned specific command
 export default function getBotCommand(
   message: Message,
