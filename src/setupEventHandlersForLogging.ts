@@ -75,20 +75,16 @@ async function sendLogForGuildMember(
         value: embedProperties.name,
       },
       {
-        name: 'Member Tag',
-        value: member.user.tag,
-      },
-      {
-        name: 'Member Id',
-        value: member.user.tag,
+        name: 'Member',
+        value: `<@${member.user.id}>`,
       },
       {
         name: 'Member Created',
         value: getRelativeTime(new Date(member.user.createdTimestamp)),
       },
       {
-        name: 'Member Created Timestamp',
-        value: member.user.createdTimestamp,
+        name: 'Member Created ISO 8601 Timestamp',
+        value: new Date(member.user.createdTimestamp).toISOString(),
       },
     )
     .setColor(embedProperties.color)
@@ -145,6 +141,22 @@ function filterChannel(
   return channels.includes(channelId)
 }
 
+// Return true if the event should not be logged, false if the event should be logged
+function filterMessage(oldMessage: Message, newMessage: Message): boolean {
+  // The only type of update that matters from a moderation perspective is content changes.
+  // Changes in pin status do not matter.
+  if (oldMessage && oldMessage.content === newMessage.content) {
+    return true
+  }
+
+  // Do not log system pin notification additions or removals
+  if (newMessage.type === 'PINS_ADD') {
+    return true
+  }
+
+  return false
+}
+
 async function sendLogForMessage(
   message: Message,
   eventName: EventName,
@@ -163,12 +175,8 @@ async function sendLogForMessage(
         value: embedProperties.name,
       },
       {
-        name: 'Member Tag',
-        value: message.author.tag,
-      },
-      {
-        name: 'Member Id',
-        value: message.author.id,
+        name: 'Member',
+        value: `<@${message.author.id}>`,
       },
       {
         name: 'Channel Name',
@@ -215,6 +223,7 @@ async function sendLogForMessage(
   return Promise.resolve(null)
 }
 
+// TODO: consider adding a left/banned/kicked field (it's in audit log but at a glance is useful)
 function setupMessageDeleteHandler(
   loggingChannelId: Snowflake,
   channels: Snowflake[],
@@ -224,6 +233,10 @@ function setupMessageDeleteHandler(
     EventName.MessageDelete,
     async (message: Message): Promise<void> => {
       if (filterChannel(message.channel.id, channels, channelsFilterType)) {
+        return
+      }
+
+      if (filterMessage(null, message)) {
         return
       }
 
@@ -250,6 +263,10 @@ function setupMessageCreateHandler(
         return
       }
 
+      if (filterMessage(null, message)) {
+        return
+      }
+
       await sendLogForMessage(
         message,
         EventName.MessageCreate,
@@ -269,6 +286,10 @@ function setupMessageUpdateHandler(
     EventName.MessageUpdate,
     async (oldMessage: Message, newMessage: Message): Promise<void> => {
       if (filterChannel(newMessage.channel.id, channels, channelsFilterType)) {
+        return
+      }
+
+      if (filterMessage(oldMessage, newMessage)) {
         return
       }
 
@@ -295,6 +316,7 @@ function setupMessageHandlers(
 }
 
 // TODO: Create a fallback for too much text? need to test it out
+// TODO: maybe reduce some duplication between each message and guild member handler
 export default function setupEventHandlersForLogging(): void {
   setupMemberHandlers(PUBLIC_LOG_CHANNEL_ID)
   setupMessageHandlers(
