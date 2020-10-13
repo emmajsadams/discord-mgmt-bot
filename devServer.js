@@ -1,6 +1,7 @@
 // eslint-disable-file
 // NOTE: this file was created because filesystem watchers don't work on wsl2 ubuntu at the moment and tools like nodemon do not seem to sync wait for for restart tasks
 // TODO: switch to async promises
+// TODO: use colors
 const inquirer = require('inquirer')
 const childProcess = require('child_process')
 const kill = require('tree-kill')
