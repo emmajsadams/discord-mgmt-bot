@@ -21,6 +21,7 @@ import {
 } from './config/channels'
 import getRelativeTime from './getRelativeTime'
 import getMessageLink from './getMessageLink'
+import filterChannel from './filterChannel'
 
 enum EventName {
   MessageCreate = 'message',
@@ -120,19 +121,6 @@ function setupGuildMemberAddEventHandler(loggingChannelId: Snowflake): void {
 function setupMemberHandlers(loggingChannelId: Snowflake) {
   setupGuildMemberDeleteEventHandler(loggingChannelId)
   setupGuildMemberAddEventHandler(loggingChannelId)
-}
-
-// Return true if the event should not be logged, false if the event should be logged
-function filterChannel(
-  channelId: Snowflake,
-  channels: Snowflake[],
-  channelsFilterType: ChannelsFilterType,
-): boolean {
-  if (channelsFilterType === ChannelsFilterType.Allow) {
-    return !channels.includes(channelId)
-  }
-
-  return channels.includes(channelId)
 }
 
 // Return true if the event should not be logged, false if the event should be logged
