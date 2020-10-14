@@ -9,6 +9,7 @@ import { TextChannel, MessageAttachment } from 'discord.js'
 
 const BACKUPS_FOLDER = '/backups/'
 
+// Figure out why this triggers each new restart
 export default async function backup(): Promise<string> {
   setStorageFolder(__dirname + '/..' + BACKUPS_FOLDER) // TODO: do I need dirname?
 

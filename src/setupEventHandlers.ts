@@ -13,6 +13,16 @@ import getDiscordClient from './getDiscordClient'
 import setupMusicBots from './setupMusicBots'
 
 export default function setupEventHandlers() {
+  const secondaryClients = []
+  for (const botConfig of SECONDARY_BOTS) {
+    const discordClient = getDiscordClient(botConfig)
+    discordClient.on('ready', () => {
+      discordClient.user.setPresence(botConfig.presence)
+    })
+    secondaryClients.push(discordClient)
+  }
+  const availableMusicClients = secondaryClients.map((client) => client)
+
   DiscordClient.on('ready', async () => {
     console.log(`Logged in as ${DiscordClient.user.tag}!`)
     DiscordClient.user.setPresence(EMMA_BOT.presence)
@@ -39,6 +49,11 @@ export default function setupEventHandlers() {
   })
 
   DiscordClient.on('message', async (message) => {
+    // TODO: remove unnecessary try catch, just for testing deploy
+    try {
+      await setupMusicBots(availableMusicClients, message)
+    } catch (e) {}
+
     const filterReason = filterMessage(message.content)
     if (filterReason) {
       message.delete({ reason: filterReason })
@@ -75,18 +90,4 @@ export default function setupEventHandlers() {
       "I'm afraid I can't do that https://www.youtube.com/watch?v=ARJ8cAGm6JE&t=59s",
     )
   })
-
-  const secondaryClients = []
-  for (const botConfig of SECONDARY_BOTS) {
-    const discordClient = getDiscordClient(botConfig)
-    discordClient.on('ready', () => {
-      discordClient.user.setPresence(botConfig.presence)
-    })
-    secondaryClients.push(discordClient)
-  }
-
-  // TODO: remove unnecessary try catch, just for testing deploy
-  try {
-    setupMusicBots(secondaryClients)
-  } catch (e) {}
 }
