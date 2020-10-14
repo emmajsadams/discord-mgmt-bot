@@ -11,6 +11,10 @@ const BACKUPS_FOLDER = '/backups/'
 
 // Figure out why this triggers each new restart
 export default async function backup(): Promise<string> {
+  if (process.env.DISABLE_BACKUP) {
+    return Promise.resolve('')
+  }
+
   setStorageFolder(__dirname + '/..' + BACKUPS_FOLDER) // TODO: do I need dirname?
 
   const guild = await DiscordClient.guilds.fetch(FRIENDS_GUILD_ID, true, true) // TODO: do I need to skip cache or not?

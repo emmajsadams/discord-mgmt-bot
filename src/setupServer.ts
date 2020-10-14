@@ -8,8 +8,14 @@ export default function setupServer(): void {
     res.send({ success: true, message: 'Bot healthy' })
   })
 
-  // TODO: add an api key authentication mechanism for triggering backups manually
   app.get('/backup', async (req, res) => {
+    if (req.query.key !== process.env.BACKUP_API_KEY) {
+      return res.status(401).send({
+        success: false,
+        message: 'No api key or incorrect api key specified',
+      })
+    }
+
     res.send({
       success: true,
       message:

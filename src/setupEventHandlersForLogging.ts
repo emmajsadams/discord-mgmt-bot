@@ -303,6 +303,10 @@ function setupMessageHandlers(
 // TODO: Create a fallback for too much text? need to test it out
 // TODO: maybe reduce some duplication between each message and guild member handler
 export default function setupEventHandlersForLogging(): void {
+  if (process.env.DISABLE_LOGGING) {
+    return
+  }
+
   setupMemberHandlers(PUBLIC_LOG_CHANNEL_ID)
   setupMessageHandlers(
     MOD_LOG_CHANNEL_ID,

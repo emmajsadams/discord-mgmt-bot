@@ -51,7 +51,7 @@ export default function setupEventHandlers() {
   DiscordClient.on('message', async (message) => {
     // TODO: remove unnecessary try catch, just for testing deploy
     try {
-      await setupMusicBots(availableMusicClients, message)
+      await setupMusicBots(secondaryClients, availableMusicClients, message)
     } catch (e) {}
 
     const filterReason = filterMessage(message.content)
@@ -74,20 +74,22 @@ export default function setupEventHandlers() {
     // TODO: change this to be in user config
     message.react(EMMA_PRAY_EMOJI)
 
-    let reply = getSimpleCommandReply(message.author.id, botCommand)
-    if (reply) {
-      message.reply(reply)
-      return
-    }
+    if (process.env.DISABLE_REPLIES) {
+      let reply = getSimpleCommandReply(message.author.id, botCommand)
+      if (reply) {
+        message.reply(reply)
+        return
+      }
 
-    reply = await getGPTReply(botCommand)
-    if (reply) {
-      message.reply(reply)
-      return
-    }
+      reply = await getGPTReply(botCommand)
+      if (reply) {
+        message.reply(reply)
+        return
+      }
 
-    message.reply(
-      "I'm afraid I can't do that https://www.youtube.com/watch?v=ARJ8cAGm6JE&t=59s",
-    )
+      message.reply(
+        "I'm afraid I can't do that https://www.youtube.com/watch?v=ARJ8cAGm6JE&t=59s",
+      )
+    }
   })
 }
