@@ -32,6 +32,8 @@
     "node-cron": "2.0.3",
     "typescript": "4.0.3",
     "utf-8-validate": "5.0.2",
+    "valid-url": "1.0.9",
+    "youtube-search": "1.1.4",
     "ytdl-core": "3.3.0",
     "zlib-sync": "0.1.7"
   },
