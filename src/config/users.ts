@@ -1,5 +1,6 @@
 import { Snowflake, PresenceData } from 'discord.js'
 
+// NOTE: bots cannot have custom statuses https://discord.js.org/#/docs/main/stable/typedef/ActivityType
 export interface UserConfig {
   id: Snowflake
   name: string
@@ -65,5 +66,7 @@ export const TREE_BOT: UserConfig = {
 }
 
 export const SECONDARY_BOTS = [VITO_BOT, SID_BOT, FITZ_BOT, TREE_BOT]
+
+export const MUSIC_BOTS = [VITO_BOT, SID_BOT, FITZ_BOT, TREE_BOT]
 
 export const BOTS = SECONDARY_BOTS.concat([EMMA_BOT])

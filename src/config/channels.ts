@@ -11,9 +11,12 @@ export enum ChannelsFilterType {
 
 export const NEW_ACCOUNT_WARNINGS = '765451731479822406'
 
+export const MUSIC_BOT_CHANNEL = '765726873568673823'
+
 // TODO: move rest of channels to this config file
 export const IGNORED_CHANNELS = [
-  '761261936343777313', // # hydra-song-requests
+  '761261936343777313', // # hydra-song-requests,
+  MUSIC_BOT_CHANNEL,
 ]
 
 export const BACKUP_CHANNELS = [
@@ -28,14 +31,6 @@ export const LOGGING_CHANNELS = [
   ADMIN_LOG_CHANNEL_ID,
   NEW_ACCOUNT_WARNINGS,
   '761255427877896213', // #server-boosts
-
-  // Historical logging channels'
-  '762012046703067176', // #member-logs
-  '762012320246792194', // #server-log
-  '762025559554654229', // #voice-log
-  '762025594006536194', // #join-leave-log
-  '761325460666712074', // #historical-logs-from-old-setup
-  '762025458153685003', // #message-logs
 ]
 
 export const ADMIN_CHANNELS = [
