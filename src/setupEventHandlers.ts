@@ -10,6 +10,7 @@ import updateReactionRole from './updateReactionRole'
 import { LOGGING_CHANNELS, ChannelsFilterType } from './config/channels'
 import { EMMA_BOT, SECONDARY_BOTS } from './config/users'
 import getDiscordClient from './getDiscordClient'
+import setupMusicBots from './setupMusicBots'
 
 export default function setupEventHandlers() {
   DiscordClient.on('ready', async () => {
@@ -75,10 +76,17 @@ export default function setupEventHandlers() {
     )
   })
 
+  const secondaryClients = []
   for (const botConfig of SECONDARY_BOTS) {
     const discordClient = getDiscordClient(botConfig)
     discordClient.on('ready', () => {
       discordClient.user.setPresence(botConfig.presence)
     })
+    secondaryClients.push(discordClient)
   }
+
+  // TODO: remove unnecessary try catch, just for testing deploy
+  try {
+    setupMusicBots(secondaryClients)
+  } catch (e) {}
 }
