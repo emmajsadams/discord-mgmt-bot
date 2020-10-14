@@ -4,19 +4,18 @@ Discord bot used to manage the http://discord.com/frens written in TypeScript fo
 
 ## TODO:
 
-- TODO: add command to lookup user by id (maybe just link to 325088597286060044)
-- TODO: look into access denied for presigned url (consider surrounding link in code blocks or using link syntax?)
-- TODO: warn for new accounts under a certain age joining and creating invites (if account less than X days post to high priority low spam monitored channel)
-- TODO: create logging channel keeping track of all emmabot actions (that are not in audit log, this might)
-- TODO: confirm audit log is backed up (probably is but if not note it in the search channel)
-- TODO: Hall of fame board for posts that get a certain number of reacts :ThanosOkay:
-- TODO: statistics on how often channels and bots are used
 - TODO: create hydrabot alternative https://discord.js.org/#/docs/main/stable/topics/voice
-- TODO: store all gpt2 questions somewhere for training later
+- TODO: separate nsfw logs into a different channel
+- TODO: warn for new accounts under a certain age joining and creating invites (if account less than X days post to high priority low spam monitored channel)
+- TODO: create logging channel keeping track of all emmabot actions (that are not represented in auditlog)
+- TODO: Hall of fame board for posts that get a certain number of reacts :ThanosOkay:
 - TODO: setup feature to post in channel on new react (for enby post)
 
 # TODO: low priority stuff
 
+- TODO: statistics on how often channels and bots are used
+- TODO: store all gpt2 questions somewhere for training later
+- TODO: look into access denied for presigned url (consider surrounding link in code blocks or using link syntax?)
 - TODO: figure out some way to represent diff? maybe sepparate message? or uploaded file??
 - TODO: add command to list out all commands
 - TODO: add feature to create new vc and text chat when they become full
