@@ -12,7 +12,7 @@ export const EMMA_BOT: UserConfig = {
   id: '763599207294173234',
   name: 'EmmaBot',
   presence: {
-    activity: { type: 'CUSTOM_STATUS', name: 'Studying Humans' },
+    activity: { type: 'WATCHING', name: 'human behavior' },
     status: 'online',
     afk: false,
   },
@@ -23,7 +23,7 @@ export const VITO_BOT: UserConfig = {
   id: '765309391762882570',
   name: 'VitoBot',
   presence: {
-    activity: { type: 'CUSTOM_STATUS', name: 'Planning Order 66' },
+    activity: { type: 'PLAYING', name: 'Order 66' },
     status: 'online',
     afk: false,
   },
@@ -35,7 +35,7 @@ export const SID_BOT: UserConfig = {
   id: '765662681733529612',
   name: 'SidBot',
   presence: {
-    activity: { type: 'CUSTOM_STATUS', name: 'Watching Footie' },
+    activity: { type: 'WATCHING', name: 'footie' },
     status: 'online',
     afk: false,
   },
@@ -46,7 +46,7 @@ export const FITZ_BOT: UserConfig = {
   id: '765664903192641588',
   name: 'FitzBot',
   presence: {
-    activity: { type: 'CUSTOM_STATUS', name: 'Planning to destroy England' },
+    activity: { type: 'WATCHING', name: 'the fall of England' },
     status: 'online',
     afk: false,
   },
@@ -57,7 +57,7 @@ export const TREE_BOT: UserConfig = {
   id: '765667194058047528',
   name: 'TreeBot',
   presence: {
-    activity: { type: 'CUSTOM_STATUS', name: 'Organizing porn' },
+    activity: { type: 'LISTENING', name: 'to obscure music' },
     status: 'online',
     afk: false,
   },
