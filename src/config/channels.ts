@@ -39,4 +39,5 @@ export const ADMIN_CHANNELS = [
   '763170044984688640', // #cuties-chat
   '763182857555673089', // #cuties-nsfw
   '765306977185169410', // #cuties-applications
+  '766398584769216527', // #cuties-vent
 ]
