@@ -30,11 +30,13 @@
     "libsodium-wrappers": "0.7.8",
     "lodash": "4.17.20",
     "node-cron": "2.0.3",
+    "pify": "5.0.0",
     "typescript": "4.0.3",
     "utf-8-validate": "5.0.2",
     "valid-url": "1.0.9",
     "youtube-search": "1.1.4",
-    "ytdl-core": "3.3.0",
+    "ytdl-core-discord": "1.2.3",
+    "ytpl": "1.0.1",
     "zlib-sync": "0.1.7"
   },
   "devDependencies": {
