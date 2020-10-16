@@ -1,6 +1,7 @@
 import { Snowflake, PresenceData } from 'discord.js'
 
 // NOTE: bots cannot have custom statuses https://discord.js.org/#/docs/main/stable/typedef/ActivityType
+// TODO: create BotConfig interface that allows client to be set
 export interface UserConfig {
   id: Snowflake
   name: string
