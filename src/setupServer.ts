@@ -1,5 +1,7 @@
+import axios from 'axios'
 import express from 'express'
 import backup from './backup'
+import axiosRetry from 'axios-retry'
 
 export default function setupServer(): void {
   const app = express()
@@ -27,4 +29,6 @@ export default function setupServer(): void {
   app.listen(8080, () => {
     console.log('express server started on port 8080')
   })
+
+  axiosRetry(axios, { retries: 3, retryDelay: axiosRetry.exponentialDelay })
 }
