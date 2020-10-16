@@ -4,6 +4,7 @@ Discord bot used to manage the http://discord.com/frens written in TypeScript fo
 
 ## TODO:
 
+- TODO: get envrionemnt variables as booleans
 - TODO: create hydrabot alternative https://discord.js.org/#/docs/main/stable/topics/voice
 - TODO: separate nsfw logs into a different channel
 - TODO: warn for new accounts under a certain age joining and creating invites (if account less than X days post to high priority low spam monitored channel)
