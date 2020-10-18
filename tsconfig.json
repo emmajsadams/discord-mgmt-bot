@@ -1,17 +1,16 @@
 {
   "compilerOptions": {
-    "incremental": true,
-    "module": "commonjs",
+    "module": "ES2020",
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2020",
+    "lib": ["ES2020"],
+    "dist": "./dist",
+    "tsBuildInfoFile": "./buildcache/front-end",
     "outDir": "./dist",
     "sourceMap": true,
     "strict": false,
-    "allowJs": true,
-    "lib": ["ES2019"],
-    "target": "ES2019",
-    "tsBuildInfoFile": "./buildcache/front-end",
-    "resolveJsonModule": true,
-    "esModuleInterop": true
+    "incremental": true
   },
   "include": ["./src/**/*"]
 }
