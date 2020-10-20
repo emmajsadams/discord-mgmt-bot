@@ -1,58 +1,51 @@
 # emmabot
 
-Discord bot used to manage the http://discord.com/frens written in TypeScript for a Node.js environment. The goal of this project is to create bot which will eventually be made generic for any server and configured entirely via json files rather than web interfaces or discord commands like many other bots. It should also provide a nice reusable set of single purpose functions which will be distributed as a library.
+Discord bot written in TypeScript for a Node.js environment. The goal of this project is to create bot which will eventually be made generic for any server and configured entirely via json files rather than web interfaces or discord commands like many other bots. It should also provide a nice reusable set of single purpose functions which will be distributed as a library.
 
 ## TODO:
 
-- TODO: get envrionemnt variables as booleans
-- TODO: create hydrabot alternative https://discord.js.org/#/docs/main/stable/topics/voice
-- TODO: separate nsfw logs into a different channel
-- TODO: warn for new accounts under a certain age joining and creating invites (if account less than X days post to high priority low spam monitored channel)
-- TODO: create logging channel keeping track of all emmabot actions (that are not represented in auditlog)
-- TODO: Hall of fame board for posts that get a certain number of reacts :ThanosOkay:
-- TODO: setup feature to post in channel on new react (for enby post)
+- move config and types folder out of src?
+- Move all types to types folder
+- Move all config to config folder
+- Say how long someone was in the server when they leave
+- Separate nsfw logs into a different channel
+- Create hydrabot alternative https://discord.js.org/#/docs/main/stable/topics/voice
+- Warn for new accounts under a certain age joining and creating invites (if account less than X days post to high priority low spam monitored channel)
+- Create logging channel keeping track of all emmabot actions (that are not represented in auditlog)
+- Hall of fame board for posts that get a certain number of reacts :ThanosOkay:
+- Create help command
+- Basic statistics on how often channels and bots are used
+- Make this code guild agnostic and able to be imported/configured by other servers (all config in separate folder, names not specific to friends server)
+- Add unit tests
 
 # TODO: low priority stuff
 
-- TODO: statistics on how often channels and bots are used
-- TODO: store all gpt2 questions somewhere for training later
-- TODO: look into access denied for presigned url (consider surrounding link in code blocks or using link syntax?)
-- TODO: figure out some way to represent diff? maybe sepparate message? or uploaded file??
-- TODO: add command to list out all commands
-- TODO: add feature to create new vc and text chat when they become full
-- TODO: figure out how to handle attachments for backup and messageDelete logs
-  - ideally I can get them off the deleted message object, if not save the attachments when it is created.. use hash table attachment)
-- TODO: pull out all configuration into a separate folder to begin the process of making the bot generic
-- TODO: delete backups older than a week? or maybe month?
-- TODO: Make this code guild agnostic
-- TODO: Create a tool to export custom logs and audit logs to json for data processing (maybe import into progress) then allow a cli/bot to search.
-- TODO: create a ban feature for users that are not part of the server (have json file for the bans because server maintainer can just update that and have bot react on guildMemberJoin)
-- TODO: automatically disconnect afk people
-- TODO: Consider adding sticky roles?
-- TODO: create an invite webapp that keeps track of both sides the invite https://discord.js.org/#/docs/main/stable/class/Invite?scrollTo=targetUser (likely just wait for an api discord)
-  - have a link to create invites oauth2
-  - generate link for person to join
-  - potentially use some sort of staging area, allow them join
-- TODO: add a yes no feature
-- TODO: make separate command for different temperatures in gpt2
-- TODO: create a unique role set
+- Setup feature to post in channel on new react (for enby post)
+- Feature to create voice/text channel on demand then delete after people leave
+- Store all gpt2 questions somewhere for training later
+- Export all logs and audit logs to SQL database for querying
+- Create a ban feature for users that are not part of the server (have json file for the bans because server maintainer can just update that and have bot react on guildMemberJoin)
+- Make separate command for different temperatures in gpt2
+- Enforce unique set of roles on all users? (acquantince/friend/homie)
+- Sticky roles?
+- Upload backups to s3 also?
+- Automatically upload files to s3 if server does not support attachments that large
 
-## Low priority dev environment stuff
+## TODO Low priority dev environment stuff
 
-- TODO: convert to tabs
-- TODO: setup https://editorconfig.org/
-- TODO: setup https://www.npmjs.com/package/tsconfig.js and convert tsconfig.js to json
-- TODO: move to allow and deny lists
-- TODO: Consolidate ignore files somehow??
-- TODO: just use lodash foreach and stop posting cringe on main
-- TODO: change ids to snowflakes
-- TODO: create docker file and migrate to google cloud (with a custom domain name) then shutdown digital ocean instance
-- TODO: make tsconfig settings as strict as possible (avoid any, do not allow js, add types for everything)
-- TODO: structure this readme in a more thoughtful way
-- TODO: create a dev/test mode that avoids making changes and just logs them instead
-- TODO: document environment files and .dotenv
-- TODO: configure githooks to prevent errors before commit (vscode mostly does this ) https://www.robertcooper.me/using-eslint-and-prettier-in-a-typescript-project
-- TODO: add tests
+- look into https://asdf-vm.com/#/
+- Investigate using https://github.com/denoland/deno
+- Upload .env file to private github gist or notes (maybe automated way to do this)
+- Create docker file and deploy using hashicorp somewhere else besides digitalocean (maybe GCE credits)
+- Investigate this project https://github.com/dandv/typescript-modern-project#import-your-own-modules-without-specifying-an-extension
+- Consider converting to tabs for accessiblity
+- Setup https://editorconfig.org/
+- Make Typescript type settings strict with no allowed js (Use discord.js types like snowflake consistently, etc..)
+- Create a test mode that will log when create/delete/update actions are taken instead of doing them rather than a full disable of feature for testing
+- Structure this readme in a more thoughtful way
+- Document environment files and .dotenv
+- Add automated tests
+- look into https://www.npmjs.com/package/ts-node
 
 # Deployment
 
@@ -79,6 +72,7 @@ https://github.com/microsoft/TypeScript/wiki/Node-Target-Mapping
 
 # Typescript
 
+https://stackoverflow.com/questions/61305578/what-typescript-configuration-produces-output-closest-to-node-js-14-capabilities
 https://fireship.io/snippets/hot-reload-node-typescript-server/
 Migration tool https://github.com/airbnb/ts-migrate/tree/master/packages/ts-migrate
 
