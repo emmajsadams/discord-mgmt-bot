@@ -7,8 +7,8 @@
   "author": "Emma Stebbins <emma@stebbins.dev>",
   "license": "MIT",
   "private": false,
-  "type": "module",
   "engineStrict": true,
+  "type": "module",
   "engines": {
     "node": "14.10.1"
   },
@@ -18,13 +18,37 @@
       "pre-push": "yarn run test"
     }
   },
+  "prettier": {
+    "semi": false,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "tabWidth": 2,
+    "endOfLine": "lf",
+    "quoteProps": "consistent"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module"
+    },
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "prettier/@typescript-eslint",
+      "plugin:prettier/recommended",
+      "plugin:import/errors"
+    ],
+    "rules": {
+      "import/no-unresolved": "off"
+    }
+  },
   "scripts": {
     "build": "tsc src/index.ts",
-    "start": "node dist/index.js",
+    "start": "node --experimental-modules --experimental-json-modules -r dotenv/config dist/index.js",
     "test": "yarn run format && yarn run lint",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
-    "format": "prettier --write .",
-    "dev": "tsnodemon"
+    "lint": "eslint src/**.ts --fix",
+    "format": "prettier --write src/**.ts",
+    "dev": "tsnodemon -x 'yarn run start'"
   },
   "dependencies": {
     "@discordjs/opus": "0.3.2",
@@ -38,6 +62,7 @@
     "erlpack": "discord/erlpack",
     "express": "4.17.1",
     "ffmpeg-static": "4.2.7",
+    "fkill": "7.0.1",
     "javascript-time-ago": "2.2.8",
     "libsodium-wrappers": "0.7.8",
     "lodash": "4.17.20",
@@ -57,6 +82,7 @@
     "@typescript-eslint/parser": "4.4.0",
     "eslint": "7.11.0",
     "eslint-config-prettier": "6.12.0",
+    "eslint-plugin-import": "2.22.1",
     "eslint-plugin-prettier": "3.1.4",
     "husky": "4.3.0",
     "prettier": "2.1.2",
