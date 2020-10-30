@@ -1,5 +1,4 @@
-image:
-  file: node:14.10.1-alpine
+image: node:14.10.1-alpine
 
 tasks:
   - init: yarn install && yarn run build
