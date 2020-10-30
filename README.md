@@ -1,9 +1,12 @@
-# emmabot
-
 Discord bot written in TypeScript for a Node.js environment. The goal of this project is to create bot which will eventually be made generic for any server and configured entirely via json files rather than web interfaces or discord commands like many other bots. It should also provide a nice reusable set of single purpose functions which will be distributed as a library.
 
 ## TODO:
 
+- Change history of commits to refer to emma https://stackoverflow.com/questions/750172/how-to-change-the-author-and-committer-name-and-e-mail-of-multiple-commits-in-gi
+- Update git repo to remove emmabot
+- remove all reference to old discord
+- use new server and bots
+- rather than configing channels by id for logging, use permissions/roles
 - move config and types folder out of src?
 - Move all types to types folder
 - Move all config to config folder
