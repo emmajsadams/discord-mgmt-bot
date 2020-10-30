@@ -2,7 +2,13 @@
   "cSpell.words": [
     "autorole",
     "emmapray",
-    "nofighting"
+    "listitem",
+    "nofighting",
+    "play",
+    "play listitem",
+    "youtube",
+    "ytdl",
+    "ytpl"
   ],
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "discord.enabled": true
