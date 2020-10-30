@@ -1,5 +1,5 @@
 image:
-  file: .gitpod.Dockerfile
+  file: node:14.10.1-alpine
 
 tasks:
   - init: yarn install && yarn run build

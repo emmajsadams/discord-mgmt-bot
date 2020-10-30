@@ -11,4 +11,5 @@
     "ytpl"
   ],
   "typescript.tsdk": "node_modules\\typescript\\lib",
+  "editor.autoSave": "off",
 }
