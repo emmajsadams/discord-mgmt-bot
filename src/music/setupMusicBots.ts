@@ -1,19 +1,19 @@
 import {
+  Channel,
   Client,
   Message,
-  VoiceChannel,
-  VoiceConnection,
-  Channel,
-  StreamOptions,
   MessageEmbed,
   StreamDispatcher,
+  VoiceChannel,
+  VoiceConnection,
 } from 'discord.js'
-import { MUSIC_BOT_CHANNEL } from './config/channels'
-import ytdl from 'ytdl-core-discord'
+import validUrl from 'valid-url'
 import search from 'youtube-search'
-import { isWebUri } from 'valid-url'
-import { MusicBotMessages } from './createMusicPlayers'
+import ytdl from 'ytdl-core-discord'
 import ytpl from 'ytpl'
+import { SECONDARY_BOTS } from '../config/bots.js'
+import { MUSIC_QUEUE_CHANNEL_ID } from '../config/channels.js'
+import { MusicBotMessages } from './createMusicPlayers.js'
 
 interface MusicBotConnection {
   client: Client
@@ -27,18 +27,14 @@ interface MusicBotConnections {
   [voiceChannelId: string]: MusicBotConnection
 }
 
+// TODO: any easier way to clone array
+const AVAILABLE_MUSIC_BOTS = SECONDARY_BOTS.map((bot) => bot)
 const BOT_CONNECTIONS: MusicBotConnections = {}
 
 // TODO: type this
 const YOUTUBE_API_OPTS = {
   maxResults: 1,
   key: process.env.YOUTUBE_API_KEY,
-}
-
-const STREAM_OPTIONS: StreamOptions = {
-  seek: 0,
-  volume: 1,
-  bitrate: 'auto',
 }
 
 async function getYoutubeUrl(query: string): Promise<string[]> {
@@ -56,7 +52,7 @@ async function getYoutubeUrl(query: string): Promise<string[]> {
     return [query]
   }
 
-  if (isWebUri(query)) {
+  if (validUrl.isWebUri(query)) {
     throw new Error('Invalid url')
   }
 
@@ -72,11 +68,10 @@ async function getYoutubeUrl(query: string): Promise<string[]> {
 
 async function setupBotConnection(
   voiceChannelId: string,
-  availableMusicClients: Client[],
 ): Promise<MusicBotConnection> {
   let musicBotConnection = BOT_CONNECTIONS[voiceChannelId]
   if (!musicBotConnection) {
-    const musicBotClient = availableMusicClients.pop()
+    const musicBotClient = AVAILABLE_MUSIC_BOTS.pop()
     const channel = musicBotClient.channels.cache.get(
       voiceChannelId,
     ) as VoiceChannel
@@ -98,7 +93,6 @@ async function setupBotConnection(
 async function queueSong(
   youtubeUrl: string,
   voiceChannelId: string,
-  availableMusicClients: Client[],
 ): Promise<void> {
   const musicBotConnection = BOT_CONNECTIONS[voiceChannelId]
 
@@ -160,12 +154,12 @@ async function queueSongs(
 // TODO: try out this https://www.npmjs.com/package/ytdl-core-discord
 // TODO: deafen all bots automatically
 // TODO: put a slow mode on the music bot channel? or handle queueing multiple
+// TODO: change this to respondToMusicMessage
 export default async function setupMusicBots(
   musicBotMessages: MusicBotMessages,
-  availableMusicClients: Client[],
   message: Message,
 ): Promise<boolean> {
-  if (message.channel.id !== MUSIC_BOT_CHANNEL) {
+  if (message.channel.id !== MUSIC_QUEUE_CHANNEL_ID) {
     return Promise.resolve(false)
   }
 
@@ -182,18 +176,9 @@ export default async function setupMusicBots(
   }
 
   const voiceChannelId = message.member.voice.channel.id
-  const musicBotConnection = await setupBotConnection(
-    voiceChannelId,
-    availableMusicClients,
-  )
+  const musicBotConnection = await setupBotConnection(voiceChannelId)
 
-  await queueSongs(
-    message,
-    youtubeUrls,
-    musicBotMessages,
-    availableMusicClients,
-    musicBotConnection,
-  )
+  await queueSongs(message, youtubeUrls, musicBotMessages, musicBotConnection)
 
   return Promise.resolve(true)
 }
