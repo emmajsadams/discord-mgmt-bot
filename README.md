@@ -2,6 +2,8 @@
 
 Discord bot written in TypeScript for a Node.js environment. The goal of this project is to create bot which will eventually be made generic for any server and configured entirely via json files rather than web interfaces or discord commands like many other bots. It should also provide a nice reusable set of single purpose functions which will be distributed as a library.
 
+Note current build is not quite working due to some recent refactors. I will be fixing over the weekend. If you need a working build restore 
+
 ## TODO:
 
 - Change history of commits to refer to emma https://stackoverflow.com/questions/750172/how-to-change-the-author-and-committer-name-and-e-mail-of-multiple-commits-in-gi
