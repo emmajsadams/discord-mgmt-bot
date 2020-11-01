@@ -14,8 +14,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn run test",
-      "pre-push": "yarn run test"
+      "pre-commit": "yarn run lint",
+      "pre-push": "yarn run lint"
     }
   },
   "prettier": {
@@ -45,8 +45,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node --experimental-modules --experimental-json-modules -r dotenv/config dist/index.js",
-    "test": "yarn run format && yarn run lint",
-    "lint": "eslint src/**.ts --fix",
+    "test": "",
+    "lint": "eslint src/**.ts --fix && prettier --check src/**.ts",
     "format": "prettier --write src/**.ts",
     "dev": "tsnodemon -x 'yarn run start'"
   },
