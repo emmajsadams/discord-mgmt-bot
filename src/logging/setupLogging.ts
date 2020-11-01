@@ -1,27 +1,27 @@
-import DiscordClient from './discordClient'
 import {
   GuildMember,
-  Snowflake,
   Message,
-  TextChannel,
   MessageEmbed,
   MessageOptions,
+  Snowflake,
+  TextChannel,
 } from 'discord.js'
 import {
-  MOD_LOG_CHANNEL_ID,
-  PUBLIC_LOG_CHANNEL_ID,
-  ADMIN_LOG_CHANNEL_ID,
-} from './ids'
-import {
-  LOGGING_CHANNELS,
   ADMIN_CHANNELS,
-  IGNORED_CHANNELS,
   BACKUP_CHANNELS,
   ChannelsFilterType,
-} from './config/channels'
-import getRelativeTime from './getRelativeTime'
-import getMessageLink from './getMessageLink'
-import filterChannel from './filterChannel'
+  IGNORED_CHANNELS,
+  LOGGING_CHANNELS,
+} from './config/channels.js'
+import DiscordClient from './discordClient.js'
+import filterChannel from './filterChannel.js'
+import getMessageLink from './getMessageLink.js'
+import getRelativeTime from './logging/getRelativeTime.js'
+import {
+  ADMIN_LOG_CHANNEL_ID,
+  MOD_LOG_CHANNEL_ID,
+  PUBLIC_LOG_CHANNEL_ID,
+} from './config/ids.js'
 
 enum EventName {
   MessageCreate = 'message',
