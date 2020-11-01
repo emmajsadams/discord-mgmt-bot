@@ -1,5 +1,8 @@
-import { ACQUAINTANCE_ROLE } from './ids'
+import { GuildMember, Snowflake } from 'discord.js'
 
-export default async function autorole(member) {
-  await member.roles.add(ACQUAINTANCE_ROLE, 'Auto role')
+export default async function autorole(
+  member: GuildMember,
+  roleId: Snowflake,
+): Promise<GuildMember> {
+  return member.roles.add(roleId, 'Autorole on join')
 }
