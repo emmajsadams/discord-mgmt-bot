@@ -1,43 +1,39 @@
-import {
-  MOD_LOG_CHANNEL_ID,
-  PUBLIC_LOG_CHANNEL_ID,
-  ADMIN_LOG_CHANNEL_ID,
-} from '../ids'
-
 export enum ChannelsFilterType {
   Allow,
   Deny,
 }
 
-export const NEW_ACCOUNT_WARNINGS = '765451731479822406'
-
-export const MUSIC_BOT_CHANNEL = '765726873568673823'
-
-// TODO: move rest of channels to this config file
-export const IGNORED_CHANNELS = [
-  '761261936343777313', // # hydra-song-requests,
-  MUSIC_BOT_CHANNEL,
-]
-
-export const BACKUP_CHANNELS = [
-  '765692417168113684', // #public-backups
-  '765692392899870731', // #mod-backups
-  '764415739423096832', // #council-backups
-]
-
+// TODO: get these by name instead of id? or create them by default?
+export const MUSIC_QUEUE_CHANNEL_ID = '768249863917142016'
+export const SERVER_BOOSTS_CHANNEL_ID = '770116172782764043'
+export const PUBLIC_LOG_CHANNEL_ID = '768249689686147092'
+export const MOD_LOG_CHANNEL_ID = '768249709621936128'
+export const ADMIN_LOG_CHANNEL_ID = '768249729367801886'
+export const NEW_ACCOUNT_WARNINGS_CHANNEL_ID = '770117293006389268'
 export const LOGGING_CHANNELS = [
   MOD_LOG_CHANNEL_ID,
   PUBLIC_LOG_CHANNEL_ID,
   ADMIN_LOG_CHANNEL_ID,
-  NEW_ACCOUNT_WARNINGS,
-  '761255427877896213', // #server-boosts
+  NEW_ACCOUNT_WARNINGS_CHANNEL_ID,
+  SERVER_BOOSTS_CHANNEL_ID,
+]
+
+export const ADMIN_BACKUPS_CHANNEL_ID = '764415739423096832'
+export const MOD_BACKUPS_CHANNEL_ID = '765692392899870731'
+export const PUBLIC_BACKUPS_CHANNEL_ID = '765692417168113684'
+
+export const BACKUP_CHANNELS = [
+  ADMIN_BACKUPS_CHANNEL_ID,
+  MOD_BACKUPS_CHANNEL_ID,
+  PUBLIC_BACKUPS_CHANNEL_ID,
 ]
 
 export const ADMIN_CHANNELS = [
-  '764415739423096832', // #council-backups
-  '761323976303050802', // #council-chat
-  '763170044984688640', // #cuties-chat
-  '763182857555673089', // #cuties-nsfw
-  '765306977185169410', // #cuties-applications
-  '766398584769216527', // #cuties-vent
+  '768249527479828501', // #admin-chat
 ]
+
+export const MOD_CHANNELS = [
+  '768249479471431741', // #mod-chat
+]
+
+export const IGNORED_CHANNELS = [MUSIC_QUEUE_CHANNEL_ID]
