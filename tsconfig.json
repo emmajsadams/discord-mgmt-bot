@@ -13,5 +13,5 @@
     "incremental": true,
     "resolveJsonModule": true
   },
-  "include": ["./src/**/*"]
+  "files": ["src/index.ts"]
 }

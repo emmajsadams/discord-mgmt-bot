@@ -43,7 +43,7 @@
     }
   },
   "scripts": {
-    "build": "tsc src/index.ts",
+    "build": "tsc",
     "start": "node --experimental-modules --experimental-json-modules -r dotenv/config dist/index.js",
     "test": "yarn run format && yarn run lint",
     "lint": "eslint src/**.ts --fix",
