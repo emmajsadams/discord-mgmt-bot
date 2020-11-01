@@ -1,14 +1,20 @@
-import DiscordClient from './discordClient'
-import { TextChannel, Message } from 'discord.js'
+import { Message, MessageOptions, TextChannel } from 'discord.js'
+import isProduction from './environment/isProduction'
 
-// TODO: change this to use message object
+// TODO: Change this to support a channel and message object
+// TODO: In dev mode change this to print the message not send it
+// TODO: Do I need to return message? Or can I avoid null return somehow
 export default async function sendMessage(
-  guildId: string,
-  channelId: string,
-  messageContent: string,
-): Promise<Message> {
-  const guild = await DiscordClient.guilds.fetch(guildId)
-  const channel = guild.channels.cache.get(channelId) as TextChannel
+  channel: TextChannel,
+  messageOptions: MessageOptions,
+): Promise<Message | null> {
+  if (isProduction()) {
+    return channel.send(messageOptions)
+  }
 
-  return channel.send(messageContent)
+  console.info('sendMessage in development')
+  console.info(`channelId: ${channel.id}`)
+  console.info(JSON.stringify(messageOptions))
+
+  return Promise.resolve(null)
 }
