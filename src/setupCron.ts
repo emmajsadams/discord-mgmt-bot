@@ -1,9 +1,9 @@
-import { schedule } from 'node-cron'
-import backup from './backup'
-import isDisabled from './isDisabled'
+import cron from 'node-cron'
+import backup from './backup.js'
+import isDisabled from './environment/isDisabled.js'
 
 export default function setupCron() {
-  schedule('0 0 * * *', async () => {
+  cron.schedule('0 0 * * *', async () => {
     if (isDisabled('backup')) {
       return
     }
