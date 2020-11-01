@@ -1,8 +1,9 @@
 import axios from 'axios'
-import express from 'express'
-import backup from './backup'
 import axiosRetry from 'axios-retry'
+import express from 'express'
+import backup from './backup.js'
 
+// TODO: type these functions using express types
 export default function setupServer(): void {
   const app = express()
 
@@ -12,10 +13,12 @@ export default function setupServer(): void {
 
   app.get('/backup', async (req, res) => {
     if (req.query.key !== process.env.BACKUP_API_KEY) {
-      return res.status(401).send({
+      res.status(401).send({
         success: false,
         message: 'No api key or incorrect api key specified',
       })
+
+      return
     }
 
     res.send({
