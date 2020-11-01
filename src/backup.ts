@@ -1,48 +1,116 @@
-import { createReadStream } from 'fs'
-import { setStorageFolder, create as createBackup } from 'discord-backup'
-import { FRIENDS_GUILD_ID, BACKUPS_CHANNEL_ID } from './ids'
-import DiscordClient from './discordClient'
-// import getSignedS3Url from './getSignedS3Url'
-// import uploadFileToS3 from './uploadFileToS3'
-// import sendMessage from './sendMessage'
-import { TextChannel, MessageAttachment } from 'discord.js'
+import backup from 'discord-backup'
+import { Guild, MessageAttachment, TextChannel } from 'discord.js'
+import {
+  BackupData,
+  TextChannelData,
+  VoiceChannelData,
+} from '../node_modules/discord-backup/lib/types'
+import {
+  ADMIN_BACKUPS_CHANNEL_ID,
+  MOD_BACKUPS_CHANNEL_ID,
+  PUBLIC_BACKUPS_CHANNEL_ID,
+} from './config/channels.js'
+import getGuild from './getGuild.js'
 
-const BACKUPS_FOLDER = '/backups/'
+// TODO: move these to channels config and consolidate with other config objects
+const BLACKLISTED_CHANNELS = [
+  'council-backups',
+  'mod-backups',
+  'council-backups',
+  'academia-mod-chat',
+]
+const HOMIE_BLACKLISTED_CHANNELS = [
+  'council-chat',
+  'cuties-chat',
+  'cuties-vent',
+  'cuties-nsfw',
+  'cuties-applications',
+  'cuties-vc',
+  'council-logs',
+  'community-updates',
+]
+const PUBLIC_BLACKLISTED_CHANNELS = [
+  'homie-chat',
+  'mod-vc',
+  'new-account-warnings',
+  'mod-logs',
+]
 
-// Figure out why this triggers each new restart
-export default async function backup(): Promise<string> {
-  setStorageFolder(__dirname + '/..' + BACKUPS_FOLDER) // TODO: do I need dirname?
+async function sendBackup(
+  guild: Guild,
+  backupChannelId: string,
+  backupData: BackupData,
+  fileName: string,
+): Promise<void> {
+  const attachment = new MessageAttachment(JSON.stringify(backupData), fileName)
+  const channel = guild.channels.cache.get(backupChannelId) as TextChannel
+  await channel.send(
+    'Here is the latest full server backup for the Friends server.',
+    attachment,
+  )
+}
 
-  const guild = await DiscordClient.guilds.fetch(FRIENDS_GUILD_ID, true, true) // TODO: do I need to skip cache or not?
+// TODO: fix this since it seeems to cause out of memory errors
+function filterBackupInPlace(
+  backupData: BackupData,
+  blacklistedChannels: string[],
+): void {
+  for (const category of backupData.channels.categories) {
+    console.log(category)
+    const filteredChildren: (VoiceChannelData | TextChannelData)[] = []
+    for (const channel of category.children) {
+      if (!blacklistedChannels.includes(channel.name)) {
+        filteredChildren.push(channel)
+      }
+    }
+    category.children = filteredChildren
+  }
+}
+
+// TODO: rename file to match function
+export default async function backupToDiscord(): Promise<string> {
+  const guild = await getGuild()
   const backupId = Date.now().toString()
-
-  await createBackup(guild, {
+  const backupData = await backup.create(guild, {
     backupID: backupId,
+    jsonSave: false,
     // TODO: Figure out how to download all messages without just spamming 9999
     maxMessagesPerChannel: 99999999999999999999999999,
     saveImages: 'base64',
   })
 
-  const fileName = backupId + '.json'
-  const fileStream = createReadStream('.' + BACKUPS_FOLDER + fileName)
-
-  // await uploadFileToS3(fileStream, fileName)
-  // TODO: just upload this.. it should work. only fallback to s3 if it fails
-  // const presignedUrl = await getSignedS3Url(fileName)
-  const attachment = new MessageAttachment(fileStream, fileName)
-
-  const channel = guild.channels.cache.get(BACKUPS_CHANNEL_ID) as TextChannel
-  channel.send(
-    'Here is the latest full server backup for the Friends server. This backup should never be shared with anyone not on the council because it includes all channels. ',
-    attachment,
+  filterBackupInPlace(backupData, BLACKLISTED_CHANNELS)
+  await sendBackup(
+    guild,
+    ADMIN_BACKUPS_CHANNEL_ID,
+    backupData,
+    `${backupId}-council.json`,
   )
 
-  // await sendMessage(
-  //   FRIENDS_GUILD_ID,
-  //   BACKUPS_CHANNEL_ID,
-  //   'Here is the latest full server backup for the Friends server. This backup should never be shared with anyone not on the council because it includes all channels. ' +
-  //     presignedUrl,
-  // )
+  filterBackupInPlace(
+    backupData,
+    BLACKLISTED_CHANNELS.concat(HOMIE_BLACKLISTED_CHANNELS),
+  )
+  await sendBackup(
+    guild,
+    MOD_BACKUPS_CHANNEL_ID,
+    backupData,
+    `${backupId}-homie.json`,
+  )
+
+  filterBackupInPlace(
+    backupData,
+    BLACKLISTED_CHANNELS.concat(
+      HOMIE_BLACKLISTED_CHANNELS,
+      PUBLIC_BLACKLISTED_CHANNELS,
+    ),
+  )
+  await sendBackup(
+    guild,
+    PUBLIC_BACKUPS_CHANNEL_ID,
+    backupData,
+    `${backupId}-public.json`,
+  )
 
   return Promise.resolve(backupId)
 }
