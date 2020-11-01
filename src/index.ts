@@ -1,12 +1,20 @@
-// TODO: avoid singletons in discordClient so that I do not have to call this immediately
-import setupEnvironment from './setupEnvironment'
-setupEnvironment()
-
-import './types/global'
-import setupCron from './setupCron'
-import setupPrimaryBot from './setupPrimaryBot'
-import setupServer from './setupServer'
+import fkill from 'fkill'
+import setupClients from './setupClients.js'
+import setupCron from './setupCron.js'
+import setupPrimaryBot from './setupPrimaryBot.js'
+import setupServer from './setupServer.js'
+import './types/global.js'
 ;(async () => {
+  // TODO: do I need fkill in production? probably just needed in dev only
+  try {
+    await fkill(':8080', {
+      force: true,
+      tree: true,
+      ignoreCase: true,
+    })
+  } catch (error) {}
+
+  await setupClients()
   await setupPrimaryBot()
   setupServer()
   setupCron()
