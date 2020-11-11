@@ -1,15 +1,4 @@
 {
-  "cSpell.words": [
-    "autorole",
-    "emmapray",
-    "listitem",
-    "nofighting",
-    "play",
-    "play listitem",
-    "youtube",
-    "ytdl",
-    "ytpl"
-  ],
   "typescript.tsdk": "node_modules\\typescript\\lib",
-  "editor.autoSave": "off",
+  "editor.autoSave": "off"
 }
