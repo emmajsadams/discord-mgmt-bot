@@ -1,16 +1,10 @@
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://gitlab.com/EmmaJCline/discord-mgmt-bot)
-
 Discord bot written in TypeScript for a Node.js environment. The goal of this project is to create bot which will eventually be made generic for any server and configured entirely via json files rather than web interfaces or discord commands like many other bots. It should also provide a nice reusable set of single purpose functions which will be distributed as a library.
 
-Note current build is not quite working due to some recent refactors. I will be fixing over the weekend. If you need a working build restore 
+Note current build is not quite working due to some recent refactors. I will be fixing it soon. If you need a working build restore to this commit https://gitlab.com/EmmaJCline/discord-mgmt-bot/-/commit/f3f2585eadf5c304d7b7a2754a0ebcda29efab63
 
 ## TODO:
 
-- Change history of commits to refer to emma https://stackoverflow.com/questions/750172/how-to-change-the-author-and-committer-name-and-e-mail-of-multiple-commits-in-gi
-- Update git repo to remove emmabot
-- remove all reference to old discord
-- use new server and bots
-- rather than configing channels by id for logging, use permissions/roles
+- reevaluate all the todos in light of finishing this project and polishing it off (yeet music?)
 - move config and types folder out of src?
 - Move all types to types folder
 - Move all config to config folder

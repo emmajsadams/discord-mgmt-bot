@@ -1,46 +1,16 @@
 {
-  "name": "emmabot",
+  "name": "discord-mgmt-bot",
   "version": "1.0.0",
   "description": "general purpose bot",
   "main": "dist/index.js",
-  "repository": "https://github.com/EmmaJStebbins/emmabot.git",
-  "author": "Emma Stebbins <emma@stebbins.dev>",
+  "repository": "https://gitlab.com/EmmaJCline/discord-mgmt-bot.git",
+  "author": "Emma Cline <emma@cline.engineer>",
   "license": "MIT",
   "private": false,
   "engineStrict": true,
   "type": "module",
   "engines": {
     "node": "14.10.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn run lint",
-      "pre-push": "yarn run lint"
-    }
-  },
-  "prettier": {
-    "semi": false,
-    "trailingComma": "all",
-    "singleQuote": true,
-    "tabWidth": 2,
-    "endOfLine": "lf",
-    "quoteProps": "consistent"
-  },
-  "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "ecmaVersion": 2020,
-      "sourceType": "module"
-    },
-    "extends": [
-      "plugin:@typescript-eslint/recommended",
-      "prettier/@typescript-eslint",
-      "plugin:prettier/recommended",
-      "plugin:import/errors"
-    ],
-    "rules": {
-      "import/no-unresolved": "off"
-    }
   },
   "scripts": {
     "build": "tsc",
