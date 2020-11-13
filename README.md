@@ -5,6 +5,7 @@ Note current build is not quite working due to some recent refactors. I will be 
 ## TODO:
 
 - reevaluate all the todos in light of finishing this project and polishing it off (yeet music?)
+- figure out where to deploy this
 - move config and types folder out of src?
 - Move all types to types folder
 - Move all config to config folder
