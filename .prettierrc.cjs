@@ -5,4 +5,5 @@ module.exports = {
   tabWidth: 2,
   endOfLine: 'lf',
   quoteProps: 'consistent',
+  useTabs: true,
 }
