@@ -5,16 +5,16 @@ import isProduction from './environment/isProduction'
 // TODO: In dev mode change this to print the message not send it
 // TODO: Do I need to return message? Or can I avoid null return somehow
 export default async function sendMessage(
-  channel: TextChannel,
-  messageOptions: MessageOptions,
+	channel: TextChannel,
+	messageOptions: MessageOptions,
 ): Promise<Message | null> {
-  if (isProduction()) {
-    return channel.send(messageOptions)
-  }
+	if (isProduction()) {
+		return channel.send(messageOptions)
+	}
 
-  console.info('sendMessage in development')
-  console.info(`channelId: ${channel.id}`)
-  console.info(JSON.stringify(messageOptions))
+	console.info('sendMessage in development')
+	console.info(`channelId: ${channel.id}`)
+	console.info(JSON.stringify(messageOptions))
 
-  return Promise.resolve(null)
+	return Promise.resolve(null)
 }
