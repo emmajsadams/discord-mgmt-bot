@@ -1,6 +1,7 @@
 import { Client, Snowflake } from 'discord.js'
 import { BotConfig } from './config/bots.js'
 
+// TODO: store this on the BotConfig instead potentially
 const cachedDiscordClients = new Map<Snowflake, Client>()
 
 export default async function getClient(botConfig: BotConfig): Promise<Client> {

@@ -65,7 +65,7 @@ export default async function setupPrimaryBot(): Promise<void> {
 	})
 
 	if (!isDisabled('logging')) {
-		setupLogging()
+		await setupLogging()
 	}
 
 	return Promise.resolve()

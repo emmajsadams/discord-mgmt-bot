@@ -1,7 +1,5 @@
 Discord bot written in TypeScript for a Node.js environment. The goal of this project is to create bot which will eventually be made generic for any server and configured entirely via json files rather than web interfaces or discord commands like many other bots. It should also provide a nice reusable set of single purpose functions which will be distributed as a library.
 
-Note current build is not quite working due to some recent refactors. I will be fixing it soon. If you need a working build restore to this commit https://gitlab.com/EmmaJCline/discord-mgmt-bot/-/commit/f3f2585eadf5c304d7b7a2754a0ebcda29efab63
-
 # Setup
 
 - Configure a .env file using the template included. (for developers use this private snippet Emma can give you access to https://gitlab.com/-/snippets/2041403)

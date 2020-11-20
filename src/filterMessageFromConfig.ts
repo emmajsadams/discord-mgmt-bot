@@ -1,5 +1,5 @@
 import { Message } from 'discord.js'
-import MESSAGE_FILTERS from './config/messageFilters'
+import MESSAGE_FILTERS from './config/messageFilters.js'
 
 // TODO: move delete and reply in to filterMessage.
 // TODO: pass message object to filterMessage

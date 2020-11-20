@@ -1,6 +1,6 @@
 import { Snowflake, TextChannel } from 'discord.js'
-import { BotConfig, PRIMARY_BOT } from './config/bots'
-import getGuild from './getGuild'
+import { BotConfig, PRIMARY_BOT } from './config/bots.js'
+import getGuild from './getGuild.js'
 
 // TODO: add support for development environment variable (prod/dev server)
 // TODO: do I want a generic getChannel or textchannel? Do I validate if textchannel or not

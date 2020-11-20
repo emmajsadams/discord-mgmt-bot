@@ -1,7 +1,7 @@
 import { Guild } from 'discord.js'
-import { BotConfig, PRIMARY_BOT } from './config/bots'
-import { PRODUCTION_GUILD_ID } from './config/guilds'
-import getDiscordClient from './getClient'
+import { BotConfig, PRIMARY_BOT } from './config/bots.js'
+import { PRODUCTION_GUILD_ID } from './config/guilds.js'
+import getDiscordClient from './getClient.js'
 
 // TODO: add support for development environment variable (prod/dev server)
 export default async function getGuild(
