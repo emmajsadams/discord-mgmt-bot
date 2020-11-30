@@ -1,6 +1,6 @@
-FROM node:14.10.1-alpine
+FROM ubuntu:20.04
 
-RUN apk add --no-cache --virtual .build-deps g++ python3-dev libffi-dev openssl-dev && \
-    apk add --no-cache --update python3 && \
-    apk add --no-cache --update make && \
-    pip3 install --upgrade pip setuptools
+RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+RUN sudo apt update
+RUN sudo apt install -y nodejs=14.10.1 g++ python3-dev libffi-dev openssl-dev make
+RUN pip3 install --upgrade pip setuptools
